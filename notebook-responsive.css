@@ -1,0 +1,192 @@
+/* HistoriaLab | Notebook-first responsive improvements (2026-10-14)
+   Loaded after design-system.css. The learning material and grading are unchanged. */
+:root { --notebook-radius: 18px; }
+#view-lesson .lesson-top-actions { display:flex;align-items:center;justify-content:flex-end;gap:17px;min-width:0; }
+#view-lesson .focus-toggle {
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:39px;padding:8px 12px;border-radius:11px;
+  border:1px solid #cadbd8;background:#f9fdfb;color:#245269;
+  font-size:12px;font-weight:800;line-height:1.3;
+  transition:background .18s,border-color .18s,color .18s;
+}
+#view-lesson .focus-toggle:hover {border-color:#75bca9;background:#e9f9f1;}
+#view-lesson .focus-toggle[aria-pressed="true"] {background:#12384b;color:white;border-color:#12384b;}
+#view-lesson .focus-toggle-icon {font-size:19px;line-height:1;}
+#view-lesson.is-focused .lesson-workspace {grid-template-columns:minmax(0,1fr);}
+#view-lesson.is-focused .lesson-sidebar {display:none;}
+#view-lesson.is-focused .slide-frame .slide-lead {max-width:850px;}
+#view-lesson .slide-frame {scrollbar-color:#92c3b6 #e4eeec;scrollbar-width:thin;}
+#view-lesson .slide-bottom-note.needs-scroll {color:#a9f0d5;font-weight:850;letter-spacing:.015em;}
+#view-exam #examScrollHint.needs-scroll {color:#0b8676;font-weight:850;}
+#view-lesson .slide-frame:focus-visible {outline:3px solid #22a58e;outline-offset:-4px;}
+/* A simpler dashboard at common laptop widths. */
+@media (min-width:900px) and (max-height:920px) {
+  html {scroll-padding-top:78px;}
+  .site-header {height:66px;}
+  .header-inner {padding-inline:30px;}
+  .brand-mark {width:39px;height:39px;border-radius:13px;font-size:23px;}
+  .brand-name strong {font-size:14px;}
+  .brand-name small {font-size:10px;}
+  .header-btn {min-height:38px;padding:8px 14px;}
+  .hero {margin-top:15px;min-height:390px;border-radius:24px;}
+  .hero-copy {padding:27px 30px 23px 39px;}
+  .hero-copy .eyebrow {font-size:9px;padding:6px 10px;}
+  .hero h1 {font-size:clamp(40px,4vw,54px);line-height:1.08;margin:16px 0 11px;}
+  .hero-copy>p {font-size:14px;line-height:1.55;max-width:510px;}
+  .hero-actions {margin-top:15px;gap:8px;}
+  .hero-actions .btn {min-height:43px;padding:10px 15px;font-size:12px;border-radius:11px;}
+  .hero-facts {margin-top:15px;padding-top:13px;}
+  .hero-facts strong {font-size:23px;}
+  .hero-facts small {font-size:11px;}
+  .hero-foot {padding-top:8px;font-size:10px;}
+  .hero-art {min-height:390px;}
+  .journey-top {top:19px;left:25px;right:25px;font-size:10px;}
+  .journey-spark {font-size:17px;}
+  .journey-track {inset:66px 20px 25px 36px;}
+  .journey-line {left:20px;}
+  .journey-event {gap:13px;}
+  .event-node {width:42px;height:42px;flex-basis:42px;border-radius:13px;}
+  .journey-event strong {font-size:27px;}
+  .journey-event small {font-size:10px;}
+  .floating-card {right:16px;bottom:18px;min-width:140px;padding:11px 12px;}
+  .floating-card strong {font-size:24px;}
+  .dashboard-intro {margin:26px 0 14px;gap:16px;}
+  .dashboard-intro h2 {font-size:34px;margin:6px 0 5px;}
+  .dashboard-intro p {font-size:13px;line-height:1.5;}
+  .overall-progress {padding:12px 16px;min-width:290px;width:320px;gap:12px;}
+  .progress-ring {height:70px;width:70px;flex-basis:70px;}
+  .progress-ring span {font-size:19px;}
+  .study-next {margin:14px 0 19px;padding:12px 16px;border-radius:17px;gap:14px;}
+  .study-next-icon {width:45px;height:45px;flex-basis:45px;border-radius:12px;font-size:21px;}
+  .study-next-copy strong {font-size:16px;}
+  .study-next-copy p {font-size:11px;}
+  .study-next .btn {min-height:42px;padding:10px 14px;font-size:12px;}
+  .filters-bar {margin-bottom:15px;}
+  .catalog-header {margin-bottom:12px;}
+  .topic-grid {gap:14px;}
+  .topic-card {min-height:250px;padding:19px;border-radius:17px;}
+  .topic-card-icon {width:48px;height:48px;border-radius:14px;font-size:25px;}
+  .topic-card-num {font-size:28px;}
+  .topic-card-meta {margin-top:12px;}
+  .topic-card h3 {font-size:18px;margin:7px 0;}
+  .topic-card p {font-size:12px;margin-bottom:10px;}
+  .topic-card-footer {padding-top:10px;}
+  .topic-hero {padding:26px 33px;min-height:0;}
+  .topic-hero h1 {font-size:clamp(29px,3vw,42px);}
+  .topic-content {margin-top:25px;}
+  .topic-aside {top:80px;max-height:calc(100dvh - 105px);overflow-y:auto;}
+  .tests-heading {margin-top:26px;}
+  .test-card {min-height:222px;padding:16px;}
+  .test-card h3 {font-size:16px;}
+  .test-card p {font-size:12px;}
+  .section-kicker {font-size:10px;}
+  .lesson-container {max-width:1430px;}
+}
+/* Notebook study studio: slide content scrolls INSIDE the stage; navigation stays in view. */
+@media (min-width:900px) and (min-height:540px) and (max-height:920px) {
+  #view-lesson {min-height:0;}
+  #view-lesson .lesson-container {
+    height:calc(100vh - 66px);height:calc(100dvh - 66px);
+    min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;
+    row-gap:9px;padding-top:10px;padding-bottom:13px;
+  }
+  #view-lesson .lesson-top {margin:0;min-height:38px;}
+  #view-lesson .lesson-progress-rail {margin:0;height:6px;}
+  #view-lesson .lesson-workspace {min-height:0;height:100%;gap:16px;}
+  #view-lesson .slide-stage {
+    height:100%;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) 32px;
+    padding:9px 9px 5px;border-radius:19px;
+  }
+  #view-lesson .slide-frame {height:100%;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;border-radius:12px;}
+  #view-lesson .slide-frame .slide {min-height:100%;flex:0 0 auto;}
+  #view-lesson .slide-padding > * {flex-shrink:0;}
+  #view-lesson .slide-padding {min-height:100%;padding:28px clamp(25px,3vw,45px);}
+  #view-lesson .slide-cover-content {min-height:100%;padding:34px clamp(27px,4vw,55px);}
+  #view-lesson .slide-cover h2 {font-size:clamp(34px,3.9vw,55px);}
+  #view-lesson .slide-cover p {font-size:14px;}
+  #view-lesson .slide-topline {margin-bottom:10px;}
+  #view-lesson .slide-heading {font-size:clamp(26px,2.5vw,35px);}
+  #view-lesson .slide-lead {font-size:13px;line-height:1.5;}
+  #view-lesson .slide-bottom {height:32px;min-height:32px;}
+  #view-lesson .lesson-sidebar {height:100%;max-height:100%;position:static;overflow-y:auto;padding:18px 18px;}
+  #view-lesson .lesson-sidebar h2 {font-size:19px;margin:5px 0;}
+  #view-lesson .aside-description {font-size:12px;line-height:1.5;}
+  #view-lesson .side-progress {margin-top:11px;padding:11px;}
+  #view-lesson .side-divider {margin:13px 0;}
+  #view-lesson .agenda-list {gap:8px;}
+  #view-lesson .agenda-item {font-size:10px;gap:7px;}
+  #view-lesson .agenda-item i {min-width:22px;height:22px;}
+  #view-lesson .side-tip {margin-top:14px;padding:12px;}
+  #view-lesson .lesson-controls {margin:0;min-height:48px;position:static;box-shadow:none;}
+  #view-lesson .lesson-controls .btn {min-height:44px;padding:10px 18px;}
+  #view-lesson .slide-cover-footer {font-size:10px;}
+  #view-lesson .map-shell {height:clamp(180px,27vh,250px);min-height:180px;flex-shrink:0;}
+  #view-lesson .map-detail {padding:12px 14px;}
+  #view-lesson .map-detail p {font-size:12px;}
+  #view-lesson .overview-main,.overview-callout,#view-lesson .compare-card,#view-lesson .compare-side {padding:17px;}
+  #view-lesson .timeline-detail {padding:20px;}
+  #view-lesson .timeline-detail h3 {font-size:22px;}
+  #view-lesson .timeline-detail p {font-size:12px;}
+  #view-lesson .timeline-point {min-height:48px;}
+  #view-lesson .flashcard {min-height:138px;}
+  #view-lesson .check-card {padding:18px;}
+  #view-lesson .check-option {min-height:48px;padding:10px 13px;font-size:13px;}
+  #view-lesson .order-slot {min-height:65px;padding:8px;}
+  #view-lesson .order-tile {min-height:70px;padding:9px;}
+  #view-lesson .match-card {min-height:70px;padding:9px;}
+  #view-lesson .game-banner {margin:9px 0;}
+  #view-lesson .source-mission {padding:17px;}
+  #view-lesson .source-mission h3 {font-size:16px;}
+}
+/* Notebook test mode: paper and answer sheet share the usable height. */
+@media (min-width:900px) and (min-height:540px) and (max-height:920px) {
+  #view-exam .container {height:calc(100vh - 66px);height:calc(100dvh - 66px);min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr);row-gap:8px;padding-top:11px;padding-bottom:12px;}
+  #view-exam .exam-topline {margin:0;gap:15px;}
+  #view-exam .exam-title-group h1 {font-size:21px;margin:2px 0;}
+  #view-exam .exam-timer {min-height:48px;padding:8px 16px;font-size:19px;}
+  #view-exam .exam-progress {height:6px;margin:0;}
+  #view-exam .exam-layout {height:100%;min-height:0;margin:0;gap:16px;}
+  #view-exam .exam-card {min-height:0;height:100%;overflow-y:auto;display:flex;flex-direction:column;padding:24px 26px;scrollbar-color:#9dcab8 #f2f7f5;scrollbar-width:thin;overscroll-behavior-y:contain;}
+  #view-exam .q-metadata {margin-bottom:11px;}
+  #view-exam .exam-card h2 {font-size:clamp(18px,1.8vw,24px);line-height:1.35;margin:12px 0 16px;}
+  #view-exam .exam-option {min-height:54px;padding:11px 14px;font-size:14px;}
+  #view-exam .exam-options {gap:8px;}
+  #view-exam .opt-letter {width:33px;height:33px;flex-basis:33px;}
+  #view-exam .exam-source {padding:12px 15px;font-size:13px;line-height:1.55;}
+  #view-exam .q-visual {padding:12px;}
+  #view-exam .exam-card-bottom {position:sticky;bottom:-24px;margin-top:auto;background:white;box-shadow:0 -13px 20px -14px #143e3d29;z-index:3;padding:13px 0 2px;min-height:59px;}
+  #view-exam .exam-sidebar {height:100%;max-height:100%;min-height:0;position:static;overflow-y:auto;padding:20px;}
+  #view-exam .exam-sidebar h3 {margin:7px 0 12px;font-size:17px;}
+  #view-exam .answer-legend {margin:12px 0;}
+  #view-exam .exam-num {height:39px;min-height:39px;}
+}
+/* Mid-size notebooks: wider question pages, no wasted sidebar space in lessons. */
+@media (min-width:900px) and (max-width:1100px) {
+  #view-lesson .lesson-workspace {grid-template-columns:minmax(0,1fr);}
+  #view-lesson .lesson-sidebar {display:none;}
+  #view-lesson .focus-toggle {display:none;}
+  .hero {grid-template-columns:minmax(0,1fr) minmax(270px,.88fr);}
+  .hero-art {min-width:0;}
+}
+/* Desktops with tall screens keep natural page flow; no forced internal scrolling. */
+@media (min-width:1101px) and (min-height:921px) {
+  #view-lesson .lesson-top-actions {gap:22px;}
+}
+/* Touch devices: do not force notebook layouts, preserve natural vertical scrolling. */
+@media (max-width:899px) {
+  #view-lesson .focus-toggle {display:none;}
+  #view-lesson .lesson-top-actions {gap:8px;}
+  #view-lesson .lesson-top-status {display:none;}
+  #view-lesson .lesson-container {height:auto;}
+}
+@media (max-width:650px) {
+  .site-header .header-inner {padding-inline:17px;}
+  .lesson-top-actions {margin-left:auto;}
+  #view-lesson .lesson-top {flex-wrap:nowrap;}
+  #view-lesson .lesson-counter {font-size:12px;white-space:nowrap;}
+  #view-lesson .lesson-progress-rail {margin-bottom:12px;}
+  #view-exam .exam-card-bottom .button-group {display:flex;min-width:0;}
+}
+@media (prefers-reduced-motion: reduce) {
+  #view-lesson .focus-toggle {transition:none;}
+}

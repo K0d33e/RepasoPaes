@@ -1,0 +1,108 @@
+/* HistoriaLab · Atlas 2027 — tema del ensayo ponderado */
+:root{--paper:#f4eee2;--paper-2:#fbf8f1;--ink:#1f2630;--ink-soft:#3f392f;--muted:#65594a;--line:#ddd1ba;--lacre:#a63d2f;--lacre-dark:#84301f;--tinta:#2b5c8a;--oliva:#4f6b2c;--oro:#b98a2f;--leather:#2a211b;--leather-3:#4a3a2e;
+--serif:'Crimson Pro',Georgia,serif;--sans:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;--ease:cubic-bezier(.2,.8,.2,1)}
+body{background:radial-gradient(ellipse 60% 40% at 100% 0%,rgba(185,138,47,.10),transparent 70%),var(--paper);color:var(--ink);font-family:var(--sans)}
+h1,h2,h3,.subtitle,.topbar strong{font-family:var(--serif);letter-spacing:-.01em}
+header{background:var(--leather);border-bottom:1px solid rgba(185,138,47,.35)}
+.mark{background:linear-gradient(145deg,#b5483a,#7e2c20);color:#fbeedd;font-family:var(--serif);border:1.5px solid rgba(243,230,201,.5)}
+.brand strong{color:#fbf3e4;font-family:var(--serif);font-size:19px}.brand small{color:#cdbb99}
+.back-aula{color:#f0d79f;border-color:rgba(243,230,201,.35)}.back-aula:hover{background:rgba(243,230,201,.1)}
+.hero{background:linear-gradient(140deg,var(--leather-3),var(--leather));border:1px solid #1a1410;border-radius:22px;position:relative;color:#fbf3e4}
+.hero:before{content:"";position:absolute;inset:12px;border:1.5px solid rgba(226,184,102,.35);border-radius:14px;pointer-events:none}
+.hero h1{color:#fbf3e4;font-family:var(--serif);font-weight:600}.hero p{color:#ddcfb4}.eyebrow{color:#e2b866}
+.side-panel,.card{background:var(--paper-2);border:1px solid var(--line);box-shadow:0 14px 34px -18px rgba(60,40,20,.35);color:var(--ink)}
+.hero .side-panel{background:linear-gradient(180deg,#f6ecd5,#ead9b6);transform:rotate(1deg)}
+.side-panel h3{color:var(--lacre);font-family:var(--serif)}.metric{border-color:rgba(107,78,46,.25);color:var(--ink-soft)}.metric b{color:var(--ink);font-family:var(--serif);font-size:18px}
+.muted,.notice,.footer{color:var(--muted)}
+.btn{border-radius:12px;font-weight:700;transition:transform .18s var(--ease),background .2s}
+.btn.primary{background:var(--lacre);border-color:var(--lacre);color:#fff}.btn.primary:hover{background:var(--lacre-dark)}
+.btn.secondary{background:var(--paper-2);border:1.5px solid #cbbd9f;color:var(--ink)}.hero .btn.secondary{background:transparent;color:#f3e6c9;border-color:rgba(243,230,201,.45)}
+.btn.danger{background:var(--ink);color:#fbf3e4;border-color:var(--ink)}
+.btn:active:not(:disabled){transform:scale(.97)}
+.mode{background:var(--paper-2);border:1.5px solid var(--line);color:var(--ink);transition:transform .25s var(--ease),border-color .2s,box-shadow .2s}
+.mode:hover{transform:translateY(-3px);border-color:#cbbd9f}
+.mode.active{border-color:var(--lacre);box-shadow:0 0 0 4px rgba(166,61,47,.12);background:#fff}
+.mode strong{font-family:var(--serif);font-size:22px;color:var(--ink)}.mode span{color:var(--muted)}
+.field select{background:var(--paper-2);border-color:var(--line);color:var(--ink)}
+.time{background:var(--ink);color:#f3e6c9;font-family:var(--serif)}
+.progress{background:#e6dac3}.progress div{background:linear-gradient(90deg,var(--lacre),var(--oro))}
+.question h2,#qText{font-family:var(--serif);color:var(--ink);white-space:pre-line;line-height:1.3}
+.source{background:linear-gradient(170deg,#fbf3e1,#f2e4c6);border:1px solid #dbc79f;color:#2b1e12;font-family:var(--serif);font-style:italic;font-size:18px}
+.source .source-label{color:var(--lacre);font-family:var(--sans);font-style:normal}
+.option{background:#fffdf8;border:1.5px solid var(--line);color:var(--ink);transition:transform .18s var(--ease),border-color .2s,background .2s}
+.option:hover{border-color:var(--tinta);transform:translateX(4px)}
+.option .letter{background:#efe5d2;color:var(--ink);font-family:var(--serif)}
+.option.selected{border-color:var(--tinta);background:#e8f0f8}.option.selected .letter{background:var(--tinta);color:#fff}
+.num{background:#fffdf8;border-color:var(--line);color:var(--ink)}
+.pill{background:#efe5d2;color:var(--ink-soft)}.pill.teal{background:var(--ink);color:#f3e6c9}
+.score{color:var(--lacre);font-family:var(--serif)}
+.result-card,.axis-item,.review{background:var(--paper-2);border-color:var(--line)}
+.footer a{color:var(--lacre)}
+:focus-visible{outline:3px solid #1d4f7a!important;outline-offset:3px}
+body .hero{background:none!important;border:0}
+body .hero:before{display:none}
+.hero-left{position:relative;background:repeating-linear-gradient(115deg,rgba(255,255,255,.012) 0 2px,transparent 2px 6px),linear-gradient(140deg,var(--leather-3),var(--leather) 60%,#1c1612)!important;border:1px solid #1a1410!important}
+.hero-left:before{content:"";position:absolute;inset:12px;border:1.5px solid rgba(226,184,102,.35);border-radius:16px;pointer-events:none}
+.hero:after{color:rgba(226,184,102,.08)!important}
+.hero .side-panel .muted{color:#5b4a33}
+
+/* ---------- Resultados: unidades a reforzar y solucionario ---------- */
+.result-grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:760px){.result-grid-4{grid-template-columns:1fr 1fr}}
+.topic-rank{padding:20px 22px}
+.rank-lead{margin:0 0 14px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.rank-lead strong{color:var(--lacre)}
+.rank-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rank-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#fffdf8}
+.rank-n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:700 16px/1 var(--serif);background:#efe5d2;color:var(--ink)}
+.rank-item.lvl-low{border-color:#e4b9ad;background:linear-gradient(90deg,#fbefea,#fffdf8 70%)}
+.rank-item.lvl-low .rank-n{background:var(--lacre);color:#fff}
+.rank-item.lvl-mid .rank-n{background:#f3e3bd;color:#7a5410}
+.rank-item.lvl-high .rank-n{background:#e6efdb;color:#2f4f1a}
+.rank-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.rank-top b{font-size:15px;color:var(--ink)}
+.rank-top span{font-size:13px;color:var(--muted);font-weight:700}
+.rank-bar{height:7px;border-radius:99px;background:#e6dac3;overflow:hidden;margin:7px 0 5px}
+.rank-bar i{display:block;height:100%;border-radius:99px;background:var(--oliva)}
+.lvl-low .rank-bar i{background:var(--lacre)}
+.lvl-mid .rank-bar i{background:var(--oro)}
+.rank-tag{font-size:12px;font-weight:700;color:var(--muted)}
+.lvl-low .rank-tag{color:var(--lacre-dark)}
+.rank-link{white-space:nowrap;font-weight:700;font-size:13.5px;color:var(--ink);text-decoration:none;padding:8px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper-2)}
+.rank-link:hover{border-color:var(--ink)}
+.lvl-low .rank-link{background:var(--lacre);border-color:var(--lacre);color:#fff}
+.review-head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.review-filters{display:flex;gap:8px;margin-bottom:12px}
+.review-filters .btn{min-height:40px;padding:8px 14px;font-size:13.5px}
+.review-filters .btn.selected{background:var(--ink);border-color:var(--ink);color:#fbf3e4}
+.review.is-wrong{border-left:4px solid var(--lacre)}
+.review.is-blank{border-left:4px solid var(--oro)}
+.review.is-ok{border-left:4px solid var(--oliva)}
+.review-head{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.review-status{font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:999px}
+.is-ok .review-status{background:#e6efdb;color:#2f4f1a}
+.is-wrong .review-status{background:#f8e4dd;color:#7d2a1c}
+.is-blank .review-status{background:#fbf0d6;color:#7a5410}
+.review-tag{font-size:12.5px;color:var(--muted);font-weight:700}
+.review .review-q{white-space:pre-line;font-family:var(--serif);font-size:18px;line-height:1.35;font-weight:600}
+.review .source{font-size:15.5px;margin:6px 0 10px}
+.review-opts{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
+.review-opts li{display:flex;gap:10px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:10px;font-size:14.5px;background:#fffdf8}
+.review-opts .letter{width:28px;min-width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#efe5d2;font:700 15px/1 var(--serif)}
+.review-opts em{margin-left:auto;font-style:normal;font-size:12px;font-weight:700;white-space:nowrap}
+.review-opts .is-right{border-color:#b9cf9e;background:#f0f6e8}
+.review-opts .is-right .letter{background:var(--oliva);color:#fff}
+.review-opts .is-right em{color:#2f4f1a}
+.review-opts .is-chosen{border-color:#e4b9ad;background:#fbefea}
+.review-opts .is-chosen .letter{background:var(--lacre);color:#fff}
+.review-opts .is-chosen em{color:var(--lacre-dark)}
+.review .feedback{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fbf3e1;border:1px solid #e8d6ae;color:#3d2e1a;line-height:1.55}
+.review .feedback.is-soft{background:transparent;border-color:var(--line);color:var(--ink-soft)}
+@media (max-width:760px){.rank-item{grid-template-columns:30px minmax(0,1fr)}.rank-link{grid-column:2;justify-self:start}}
+
+/* ---------- Pregunta del ensayo: colores del tema y alternativas en 2 columnas ---------- */
+.option:hover{background:#fbf6ea}
+.option.selected{box-shadow:inset 4px 0 0 var(--tinta)}
+.qfooter{background:transparent;border-top-color:var(--line)}
+@media (max-width:899px){.options.options-2col{grid-template-columns:1fr}}
+#qScroll.fit-measure,#qScroll.fit-measure *{animation:none!important}
