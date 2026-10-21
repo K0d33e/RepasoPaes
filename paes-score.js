@@ -1,13 +1,15 @@
 /* Puntaje PAES estimado e historial de ensayos, compartido entre el aula (index.html) y el simulador (clasico/).
-   Escala: DEMRE, «Tabla de Transformación de Puntajes PAES Regular — Historia y Ciencias Sociales»,
-   Proceso de Admisión 2025. En la PAES real, 60 de las 65 preguntas inciden en el puntaje.
+   Escala: DEMRE, «Tabla de Transformación de Puntajes PAES de Invierno — Historia y Ciencias Sociales»,
+   Proceso de Admisión 2027. En la PAES real, 60 de las 65 preguntas inciden en el puntaje.
    Las pruebas de otro largo se llevan proporcionalmente a esas 60 preguntas: es una estimación, no un puntaje oficial.
    El historial guarda SOLO ensayos ponderados completos (kind 'full'), con una copia de cada pregunta y la respuesta dada. */
 (() => {
   'use strict';
   // TABLE[n] = puntaje PAES para n respuestas correctas de 60.
-  const TABLE = [100,106,135,161,184,206,227,248,266,282,297,311,327,344,360,374,385,395,404,415,429,444,460,473,484,492,499,506,515,527,542,557,572,583,591,598,605,614,625,639,655,670,683,693,703,712,724,739,756,772,788,802,817,834,853,873,895,917,941,968,1000];
+  const TABLE = [100,132,158,181,203,224,244,263,279,294,308,324,341,357,372,383,393,402,413,426,441,457,471,482,490,497,504,513,525,539,555,569,581,590,597,604,612,623,637,653,668,681,692,701,711,722,736,753,770,785,799,814,829,848,868,888,910,932,957,985,1000];
   const SCORED = 60;
+  const SOURCE_URL = 'https://demre.cl/publicaciones/pdf/2027-26-07-17-clavijero-paes-invierno-historia.pdf';
+  const SOURCE = 'PAES de Invierno Historia y Ciencias Sociales, Admisión 2027 (DEMRE, julio de 2026)';
   const KEY = 'historialab-paes-2027-history-v1';
   // Cada ensayo guardado pesa ~45 KB (65 preguntas con su explicación).
   const MAX_ENTRIES = 40;
@@ -21,11 +23,12 @@
   }
   // Solo ensayos completos: versiones anteriores también guardaban pruebas por tema y prácticas cortas.
   function list() {
-    try { const a = JSON.parse(localStorage.getItem(KEY)); return Array.isArray(a) ? a.filter(e => e && e.kind === 'full' && Number.isFinite(e.score)) : []; }
+    try { const a = window.PAES_STORE ? window.PAES_STORE.read(KEY) : JSON.parse(localStorage.getItem(KEY)); return Array.isArray(a) ? a.filter(e => e && e.kind === 'full' && Number.isFinite(e.score)) : []; }
     catch (_) { return []; }
   }
   // Si el navegador no tiene espacio, se descartan los ensayos más antiguos hasta que quepa.
   function save(entries) {
+    if(window.PAES_STORE)return window.PAES_STORE.write(KEY,entries.slice(0,MAX_ENTRIES));
     for (let n = Math.min(entries.length, MAX_ENTRIES); n > 0; n = Math.floor(n * 0.7)) {
       try { localStorage.setItem(KEY, JSON.stringify(entries.slice(0, n))); return true; } catch (_) {}
     }
@@ -33,14 +36,14 @@
   }
   // Guarda un ensayo terminado. entry: {source, kind:'full', title, correct, total, questions, ...extra}
   function record(entry) {
-    const e = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), date: Date.now(), ...entry };
+    const e = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), date: Date.now(), ...entry, scoreSource:SOURCE, scoreSourceUrl:SOURCE_URL };
     e.score = score(e.correct, e.total);
     e.pct = e.total ? Math.round(100 * e.correct / e.total) : 0;
     save([e, ...list()]);
     return e;
   }
   const get = id => list().find(e => e.id === id) || null;
-  function clear() { try { localStorage.removeItem(KEY); } catch (_) {} }
+  function clear() { if(window.PAES_STORE){window.PAES_STORE.remove(KEY);return;}try { localStorage.removeItem(KEY); } catch (_) {} }
   const formatDate = ts => new Date(ts).toLocaleString('es-CL', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -67,9 +70,9 @@
     return `<div class="history-summary">${tiles.map(([v, l]) => `<div><strong>${esc(v)}</strong><span>${esc(l)}</span></div>`).join('')}</div>`
       + `<ol class="history-list">${rows}</ol>`
       + (all.length > limit ? `<p class="history-more">Mostrando los ${limit} más recientes de ${all.length}.</p>` : '')
-      + `<p class="history-note">Abre un ensayo para ver tus respuestas, por qué las incorrectas lo eran y qué unidades reforzar. Puntaje PAES estimado con la tabla oficial del DEMRE (Admisión 2025). Se guarda en este navegador.</p>`;
+      + `<p class="history-note">Abre un ensayo para revisar tus respuestas y qué unidades reforzar. Los nuevos puntajes se estiman con la <a href="${SOURCE_URL}" target="_blank" rel="noopener">tabla DEMRE de Invierno, Admisión 2027</a>. Los resultados anteriores conservan su puntaje original. El banco no está calibrado por DEMRE.</p>`;
   }
 
-  window.PAES_SCORE = { TABLE, SCORED, KEY, equivalent, score, list, get, record, save, clear, formatDate, historyHTML,
-    SOURCE: 'Tabla de Transformación de Puntajes PAES Regular, Historia y Ciencias Sociales, Proceso de Admisión 2025 (DEMRE)' };
+  window.PAES_SCORE = { TABLE, SCORED, SOURCE_URL, KEY, equivalent, score, list, get, record, save, clear, formatDate, historyHTML,
+    SOURCE };
 })();

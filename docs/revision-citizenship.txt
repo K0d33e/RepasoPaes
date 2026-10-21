@@ -1,0 +1,200 @@
+REVISIÓN EDITORIAL DE FORMACIÓN CIUDADANA — 21 de octubre de 2026
+
+Alcance: 90 ítems activos leídos individualmente (enunciado, cuatro
+alternativas, clave, explicación y fuente/visualización disponible):
+60 cortos de democracia y ciudadania tras questions-plus.js, y los 30
+clásicos del eje C en Q completo (36–51 y 87–100, numeración desde 1).
+El clásico 97 pertenece al eje C aunque su unidad asignada es guerr_fria.
+No se usaron índices de una lista filtrada para identificar clásicos.
+
+Resultado entregado: review-citizenship.js declara 60 + 30 revisiones
+explícitas. La primera alternativa es la correcta en cada revisión.
+No aplica los cambios, no baraja alternativas ni modifica preguntas base.
+Se conservan las visualizaciones y se actualizan las etiquetas de fuente
+cuando cambia el escenario. Las fuentes didácticas siguen siendo
+recreaciones; no pasan a ser documentos oficiales.
+
+Criterio editorial: tres distractores revisados en cada ítem, cercanos al
+tema y basados en errores de competencia institucional, causalidad,
+representatividad, garantías o verificación. Se retiraron anacronismos,
+opciones ajenas al asunto y absolutos que revelaban la clave. Se procuró
+extensión semejante. Los conceptos básicos tienen menor complejidad que
+los análisis de nivel 3, sin recurrir a tres alternativas absurdas.
+
+Hallazgos conceptuales relevantes:
+- democracia/3/7 era ambiguo: cualquier indicador aislado puede ser
+  insuficiente para evaluar toda una democracia. Ahora compara conjuntos
+  de evidencia para un propósito multidimensional explícito.
+- democracia/1/2 distingue al Congreso bicameral sin borrar la participación
+  del Presidente como colegislador. democracia/1/1 distingue aplicación
+  jurisdiccional de revisión genérica de toda norma.
+- democracia/2/10 evita afirmar que presentar una petición obliga a
+  aprobarla o equivale a obtener una decisión favorable.
+- clásico 89 precisa un requerimiento admisible durante la tramitación:
+  no toda discrepancia política produce automáticamente un control del TC.
+- clásico 98 conserva el concepto de atribuciones parlamentarias, pero
+  reemplaza el patrón I/II/III por combinaciones de funciones plausibles.
+- clásico 100 exige consentimiento libre e informado cuando esa es la
+  base invocada. No afirma que sea la única autorización legal posible.
+  La Ley 21.719 entra en vigencia el 1 de diciembre de 2026, fecha posterior
+  al corte de esta revisión; no se presenta como régimen ya vigente.
+- Se comprobó la Ley 21.773: desde 2026 el sufragio de extranjeros exige
+  más de diez años ininterrumpidos, contados desde residencia definitiva,
+  con las condiciones constitucionales correspondientes. Ninguno de los
+  90 ítems revisados pregunta ese plazo; no se introdujo una pregunta nueva
+  ni se mantuvo una mención a cinco años.
+
+Registro individual (en todos se revisaron clave y tres distractores):
+democracia/1/1: competencias separadas; no infiere controles no ilustrados.
+democracia/1/2: Congreso bicameral; alternativas de instituciones cercanas.
+democracia/1/3: jurisdicción; confusiones entre órganos del Estado.
+democracia/1/4: gobierno y administración frente a legislación y control.
+democracia/1/5: pluralismo frente a cuotas y restricciones de acceso político.
+democracia/1/6: incidencia en asunto público frente a decisiones privadas.
+democracia/1/7: separación funcional frente a desconcentración y subordinación.
+democracia/1/8: competencia y sufragio frente a mecanismos electorales impropios.
+democracia/1/9: rendición de cuentas frente a publicidad de logros o promesas.
+democracia/1/10: límites de mayoría frente a privilegios de representación.
+democracia/2/1: cuadro de gestión; distingue documentación y mera difusión.
+democracia/2/2: observaciones ciudadanas frente a representación y jurisdicción.
+democracia/2/3: caso autosuficiente con 85% de participación y clausura de prensa.
+democracia/2/4: trámite ambiental frente a sanción, ejecución y reparación.
+democracia/2/5: jurisdicción contractual frente a otras funciones estatales.
+democracia/2/6: manifestación como demanda frente a potestades públicas.
+democracia/2/7: publicidad de contratación facilita control; no certifica probidad.
+democracia/2/8: prohibición motivada por crítica; distingue garantías electorales.
+democracia/2/9: contrapesos frente a supuestas jerarquías entre poderes.
+democracia/2/10: petición institucional frente a supuestos efectos vinculantes.
+democracia/3/1: procedimiento con garantías frente a atajos en investigación.
+democracia/3/2: evaluación durante el mandato frente a legitimidad ilimitada.
+democracia/3/3: variable observada de libertad de prensa, sin inferir otros rasgos.
+democracia/3/4: conflicto por obra suspendida; cumplimiento y recursos frente a atajos.
+democracia/3/5: participación entre elecciones frente a errores conceptuales cercanos.
+democracia/3/6: impunidad por presión política; distingue norma y efectividad.
+democracia/3/7: conjuntos comparables; corrige multiplicidad de respuestas posibles.
+democracia/3/8: incidencia civil sin asumir atribuciones municipales.
+democracia/3/9: exclusión de revisión judicial y pérdida de contrapesos.
+democracia/3/10: aplicación institucional a un caso; evita pregunta metapedagógica.
+ciudadania/1/1: cuadro ficticio de reproducciones; evidencia frente a popularidad.
+ciudadania/1/2: desinformación frente a conectividad, propiedad y privacidad.
+ciudadania/1/3: debido proceso frente a resultado favorable o potestad acusadora.
+ciudadania/1/4: jurisdicción frente a investigación fiscal y política de seguridad.
+ciudadania/1/5: acceso efectivo frente a éxito procesal o información noticiosa.
+ciudadania/1/6: rastreo de origen frente a copias, comentarios y primicia.
+ciudadania/1/7: oportunidad tecnológica frente a representatividad y validación.
+ciudadania/1/8: recomendación según historial frente a cronología, azar y cuotas.
+ciudadania/1/9: deliberación argumentada frente a popularidad y prestigio.
+ciudadania/1/10: permisos frente a instalación, popularidad y borrado aparente.
+ciudadania/2/1: sentencia como fuente; compara encuadres sin elegir por afinidad.
+ciudadania/2/2: norma vigente frente a material antiguo, captura o propuesta.
+ciudadania/2/3: defensa frente a garantías de otros ámbitos del derecho.
+ciudadania/2/4: tutela judicial frente a representación y consulta política.
+ciudadania/2/5: cámara de eco frente a supuesta representatividad o verificación.
+ciudadania/2/6: método y muestra frente a decimales, prestigio y diseño.
+ciudadania/2/7: coordinación digital frente a decisión pública vinculante.
+ciudadania/2/8: 80, 100 y 90 denuncias; titulares dependen del año de referencia.
+ciudadania/2/9: acusación viral frente a determinación judicial de culpabilidad.
+ciudadania/2/10: testimonio individual frente a representatividad no demostrada.
+ciudadania/3/1: procedencia temporal frente a resolución, reenvíos y afinidad.
+ciudadania/3/2: contraste presupuestario documentado con respuesta abierta al candidato.
+ciudadania/3/3: prueba de personalización; interacción y diversidad son dimensiones distintas.
+ciudadania/3/4: trazabilidad frente a brevedad, difusión y transferencia de contexto.
+ciudadania/3/5: encuesta identifica barreras rurales; elige medidas que las abordan.
+ciudadania/3/6: popularidad no demuestra verdad ni falsedad de lo afirmado.
+ciudadania/3/7: amenaza presupuestaria vinculada a fallo pendiente; identifica presión.
+ciudadania/3/8: triangulación sin inferir causalidad ni neutralizar limitaciones.
+ciudadania/3/9: fallo como fuente frente a cadena de reenvío y apariencia sonora.
+ciudadania/3/10: consulta a 200 personas; distingue cifra, extrapolación y valoración.
+clásico/36: representación electoral frente a sorteo profesional o designación técnica.
+clásico/37: separación frente a distribución partidaria o dirección unificada.
+clásico/38: comisión parlamentaria fiscaliza; no investiga penalmente ni administra.
+clásico/39: pluralismo frente a unanimidad, poder económico y adhesión oficialista.
+clásico/40: gráfico sin contexto; contraste frente a expectativas y popularidad.
+clásico/41: sujeción jurídica frente a excepciones por respaldo o influencia.
+clásico/42: poder jurisdiccional; opciones institucionales de igual nivel.
+clásico/43: defensa frente a resultado favorable y selección interesada de prueba.
+clásico/44: propuesta vecinal frente a opciones domésticas de consumo y residencia.
+clásico/45: porcentaje electoral no acredita libertad, apoyo al gobierno ni independencia.
+clásico/46: independencia protege decisiones jurídicas; no sustituye ley ni recursos.
+clásico/47: comparación de cifras requiere fechas, fuentes y métodos.
+clásico/48: concepto de soberanía popular; explicación distingue fórmula chilena de Nación.
+clásico/49: transparencia facilita control; no transfiere decisión ni exime responsabilidad.
+clásico/50: caso combina oportunidades y riesgos sin validar toda publicación.
+clásico/51: igualdad jurídica frente a patrimonio, popularidad y condición mayoritaria.
+clásico/87: legalidad y competencia frente a otros principios administrativos.
+clásico/88: toma de razón; instituciones de control plausibles como distractores.
+clásico/89: TC y requerimiento admisible; precisión del momento procesal.
+clásico/90: inalienabilidad frente a otros atributos auténticos de derechos humanos.
+clásico/91: organización territorial frente a participación electoral, gremial y partidaria.
+clásico/92: información municipal frente a defensa, elección y consulta.
+clásico/93: amparo frente a otras acciones jurídicas reales.
+clásico/94: verificación antes de compartir; no basta una advertencia posterior.
+clásico/95: consulta indígena representativa frente a mera información o encuesta general.
+clásico/96: Fiscalía dirige; distingue defensa, juzgado y policía auxiliar.
+clásico/97: contexto inmediato de DUDH frente a otros hitos internacionales modernos.
+clásico/98: tratados y acusaciones; distingue aprobar de ratificar un tratado.
+clásico/99: renovación y control electoral; no autorización irrestricta para gobernar.
+clásico/100: consentimiento como base condicional; finalidad y vigencia de reforma.
+
+Correspondencia curricular y límites:
+Temario Regular Admisión 2027, página 8: fundamentos democráticos,
+institucionalidad chilena, sociedad de la información y acceso a justicia.
+La comprobación del temario completo se realizó en la revisión coordinada;
+el subproceso de Ciudadanía recibió confirmación de esa página después
+de fallos de descarga propios. Los detalles del Convenio 169 son contexto
+de institucionalidad y derechos, no una exigencia literal del temario.
+El clásico 97 también se relaciona con historia mundial de posguerra.
+Los niveles son una organización didáctica del sitio, sin calibración oficial.
+
+Fuentes primarias consultadas o contrastadas en la revisión coordinada:
+1. Temario Regular, Admisión 2027 (marzo 2026), pág. 8:
+https://acceso.mineduc.cl/wp-content/uploads/2026/03/Temario-PAESRegular-2026-Historia-v2.pdf
+2. Portal de pruebas y claves Invierno Admisión 2027. Prueba 17-06-2026;
+   clave publicada 17-07-2026; ambas fichas oficiales verificadas:
+https://demre.cl/publicaciones/2027/pruebas-oficiales-paes-invierno-p2027
+https://demre.cl/publicaciones/2027/2027-26-06-17-paes-invierno-historia-p2027
+https://demre.cl/publicaciones/2027/2027-26-07-17-clavijero-paes-invierno-historia-p2027
+3. Selección y clave Regular Admisión 2026. Aplicación 03-12-2025;
+   clave publicada 05-01-2026:
+https://demre.cl/publicaciones/2026/pruebas-oficiales-paes-regular-p2026
+https://demre.cl/publicaciones/2026/2026-25-12-03-paes-regular-historia-p2026
+https://demre.cl/publicaciones/2026/2026-26-01-05-clavijero-paes-regular-historia-p2026
+4. BCN, Constitución, arts. 5–8, 19–21 y capítulos sobre órganos públicos:
+https://www.bcn.cl/leychile/navegar?idNorma=242302
+5. BCN, Ley 21.773, modificación constitucional del sufragio extranjero:
+https://www.bcn.cl/leychile/navegar?idNorma=1217272
+6. BCN, Ley 21.719, protección de datos; vigencia diferida 01-12-2026:
+https://www.bcn.cl/leychile/navegar?i=1209272
+7. BCN, Ley 20.285, acceso a información pública:
+https://www.bcn.cl/leychile/Navegar?idNorma=276363&idParte=0
+8. OIT, Convenio 169, art. 6:
+https://normlex.ilo.org/dyn/nrmlx_es/f?p=NORMLEXPUB:12100:0::NO::P12100_ILO_CODE:C169
+9. Fiscalía de Chile, funciones en el proceso penal:
+https://www.fiscaliadechile.cl/preguntas-frecuentes/fiscalia-y-proceso-penal
+10. Naciones Unidas, contexto histórico de la DUDH:
+https://www.un.org/en/about-us/udhr/history-of-the-declaration
+
+No se copiaron preguntas oficiales. Las claves oficiales corresponden
+exclusivamente a sus respectivas formas; no certifican las claves del sitio.
+Los portales DEMRE acreditan las publicaciones y sirven como referencia
+de evaluación; no se afirma una equivalencia ítem a ítem ni aval DEMRE.
+Esta es una revisión educativa editorial; no equivale a asesoría jurídica,
+validación psicométrica ni garantía de cobertura completa de la prueba.
+
+Verificación ejecutada con Node/VM:
+- Carga correcta de review-citizenship.js en contexto limpio con window.
+- 60 IDs cortos existentes tras questions.js + questions-plus.js.
+- 30 IDs clásicos coinciden exactamente con Q completo filtrado por eje C.
+- Los 90 registros tienen cuatro textos no vacíos, distintos dentro del ítem.
+- Se preservan todas las visualizaciones; las fuentes modificadas identifican
+  los escenarios nuevos como ficticios y concuerdan con los enunciados.
+- Lectura editorial final confirma una sola respuesta que cumple cada enunciado.
+Esta verificación estructural no sustituye la lectura conceptual registrada.
+
+Pasada complementaria de revisión cruzada:
+Se corrigieron tres dependencias de evidencia: controles no ilustrados
+(democracia/1/1), cuadro inexistente (democracia/2/3) y gráfico no mostrado
+(ciudadania/2/8). Se incorporaron casos y datos concretos a democracia/3/4
+y ciudadania/3/2, /3/3, /3/5, /3/7 y /3/10. Las alternativas exigen vincular
+la evidencia con competencias, garantías o límites de inferencia; no se
+eligieron por una diferencia sistemática entre prudencia y absolutismo.

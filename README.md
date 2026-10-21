@@ -2,16 +2,30 @@
 
 **Versión Atlas: rediseño completo, presentaciones animadas y estudio ponderado por eje.**
 
+## Revisión y pausa · 21 de octubre de 2026
+
+- Revisión individual de las **374 preguntas** (270 del aula y 104 del simulador): claves, explicaciones, fuentes y distractores. Se sustituyeron alternativas absurdas o demasiado evidentes por errores conceptuales plausibles. Los detalles por eje están en `docs/revision-history.txt`, `docs/revision-citizenship.txt` y `docs/revision-economy.txt`.
+- **Sorteo nuevo por intento:** las pruebas cortas cambian el orden de preguntas y alternativas; el simulador vuelve a sortear sus alternativas. No hay ciclos ni cuotas de letras correctas. El azar puede producir repeticiones naturales. Al retomar se conserva exactamente el orden del intento iniciado.
+- **Progreso compatible:** se mantienen los avances, resultados e intentos existentes. Cada intento nuevo guarda una copia de sus preguntas para que futuras revisiones no cambien su corrección. El indicador de guardado muestra fallos y permite reintentar; hay respaldo local del estado anterior cuando el almacenamiento lo permite.
+- La estimación de puntaje utiliza ahora la tabla oficial **Invierno Admisión 2027** (julio de 2026). Los resultados históricos conservan el puntaje registrado. Aplicar esa tabla a preguntas originales no equivale a obtener un puntaje PAES oficial.
+- Botón **Pausar / Reanudar** en las 27 pruebas cortas y en todas las modalidades del simulador. Congela el reloj, oculta las preguntas y conserva respuestas, marcas y posición al recargar.
+- Las pausas no se cuentan como tiempo empleado en el historial del ensayo. Para salir durante un descanso, pulsa primero Pausar; en el aula también puedes usar Guardar y salir.
+- Se corrigieron preguntas ambiguas sobre cronología de 1991, desplazamientos de oferta y demanda, sufragio femenino y comparación de CAE. Se actualizaron requisitos de sufragio de extranjeros y vigencia de protección de datos en el contenido ampliado.
+- Informe con fuentes y límites: [auditoría DEMRE](docs/auditoria-demre-2026-10-21.txt). La alineación curricular no implica validación del DEMRE ni dificultad equivalente a una prueba oficial.
+- Comprobaciones: `node --test tests/content-audit.cjs tests/reviewed-content.cjs tests/exam-engine.cjs tests/study-storage.cjs tests/score-current.cjs tests/browser-pause.cjs` (el navegador requiere Chrome o Edge local). Sin dependencias npm.
+
 ## Nuevo en la versión Atlas
 
-### Estudio según el peso de cada eje
-| Eje | Peso | Preguntas de 65 |
+### Distribución didáctica propia para el estudio
+Estos pesos organizan la práctica del sitio. El temario DEMRE 2027 no fija porcentajes por eje; no son ponderaciones oficiales del puntaje.
+
+| Eje | Peso propio | Preguntas en nuestro ensayo de 65 |
 |---|---|---|
 | Historia: Mundo, América y Chile | 56% | 36 |
 | Formación ciudadana | 31% | 20 |
 | Sistema económico | 13% | 9 |
 
-- Panel **«Dónde se juega tu puntaje»** con el peso, las preguntas equivalentes y tu dominio en cada eje.
+- Panel **«Organiza tu estudio»** con el peso, las preguntas equivalentes y tu dominio en cada eje.
 - **Preparación ponderada:** promedio de tus mejores pruebas multiplicado por el peso de cada eje.
 - **Siguiente paso recomendado:** prioriza la unidad con mayor peso × brecha de dominio (Historia primero).
 - Cada unidad muestra su peso aproximado (≈ preguntas de 65).
@@ -40,7 +54,7 @@
 
 ### Verificaciones
 - Sin errores JS ni desbordamiento horizontal a 390 y 1366 px.
-- Regresión: responder siempre A en la primera prueba = **3/10**.
+- Regresión actual: cada alternativa conserva su clave al barajarse; responder siempre A ya no tiene un resultado predeterminado.
 - Ensayo completo: 36 H · 20 C · 9 E sin repetir preguntas; letras correctas repartidas entre A–D.
 
 ---
@@ -71,7 +85,7 @@ Versión rediseñada de **HistoriaLab PRO** siguiendo criterios de la skill **UI
 
 - Renderización, ausencia de desbordamiento horizontal y continuidad del mapa en anchos de 375, 390, 768, 820, 912, 1024, 1280, 1366, 1440 y 1920 px.
 - Botón Continuar accesible dentro de la ventana en notebooks de 1280×720, 1366×768, 1024×768 y 912×683.
-- Recorrido completo de primera lección, juegos, tres pruebas desbloqueadas y resultado **3/10** al responder siempre A en la primera evaluación.
+- Recorrido completo de primera lección, juegos y tres pruebas desbloqueadas. El antiguo resultado fijo de 3/10 al responder siempre A fue sustituido por sorteo independiente por intento.
 - Ensayo clásico en modo rápido: inicio, pregunta siguiente y controles en pantalla a los anchos comprobados.
 - Mensajes de «Desplázate» y reinicio de la posición de lectura al cambiar de pregunta.
 
@@ -146,7 +160,7 @@ HistoriaLab_UX_Pro_2027/
 - Carga de 9 unidades y presentación en 1440, 1024, 768, 390 y 375 px.
 - Sin desbordamiento horizontal en inicio, unidad, portada de lección y mapa en dichos anchos.
 - Recorrido de la primera unidad con mapa, juegos, chequeos, desbloqueo de 3 pruebas y corrección.
-- Prueba de regresión: **responder siempre A = 3/10**, por debajo del umbral de dominio del 70%.
+- Prueba de regresión: orden aleatorio por intento y conservación de la respuesta correcta al barajar; sin puntaje fijo al responder siempre una letra.
 - Ensayo clásico en modo rápido: inicio, preguntas y ausencia de errores JS en varios tamaños.
 
 ## Referencias y límites

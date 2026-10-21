@@ -1,7 +1,9 @@
 (() => {
   'use strict';
   const TOPICS = window.PAES_TOPICS || [];
-  const BANK = window.PAES_TEST_BANK || {};
+  const LEGACY_BANK = window.PAES_TEST_BANK || {};
+  const ENGINE = window.PAES_EXAM;
+  const BANK = ENGINE.reviewShort(LEGACY_BANK,window.PAES_REVIEW?.short);
   const INTERACTIVE = window.PAES_INTERACTIVE || {};
   const DEEP = window.PAES_DEEP || {};
   const SCORE = window.PAES_SCORE || null;
@@ -32,7 +34,7 @@
   ];
   const GATED = new Set(['map','order','match','sourcegame']);
   const countSlides = () => SLIDES.length;
-  // Peso de cada eje en la PAES 2027 (porcentaje de preguntas) y equivalencia sobre 65 ítems.
+  // Pesos didácticos propios para orientar el estudio; DEMRE no fija estos porcentajes en el temario 2027.
   const AXIS = {
     Historia:{color:'#a63d2f',soft:'#f7e6df',name:'Historia: Mundo, América y Chile',short:'Historia',weight:56,q:36,priority:'Prioridad alta',level:'high'},
     Ciudadanía:{color:'#2b5c8a',soft:'#e2ecf6',name:'Formación ciudadana',short:'Formación ciudadana',weight:31,q:20,priority:'Prioridad media',level:'mid'},
@@ -62,8 +64,8 @@
     $('topicGrid').textContent = 'No se pudo cargar el banco completo de contenidos. Verifica que content.js y questions.js estén junto a index.html.';
     return;
   }
-  function read(key) { try { return JSON.parse(localStorage.getItem(key)); } catch (_) { return null; } }
-  function write(key,data) { try { localStorage.setItem(key,JSON.stringify(data)); return true; } catch (_) { return false; } }
+  function read(key) { return window.PAES_STORE.read(key); }
+  function write(key,data) { return window.PAES_STORE.write(key,data); }
   function restore() {
     const saved = read(STORAGE_PROGRESS);
     if(saved && typeof saved === 'object') {
@@ -72,7 +74,8 @@
     }
     const pending = read(STORAGE_EXAM);
     if(pending && topic(pending.topicId) && Number.isInteger(pending.testIdx) && pending.testIdx >= 0 && pending.testIdx < 3 && Array.isArray(pending.answers) && pending.answers.length === 10 && Array.isArray(pending.flags) && pending.flags.length === 10) {
-      exam = pending;
+      try{exam = ENGINE.restoreShort(pending,LEGACY_BANK[pending.topicId][pending.testIdx]);}
+      catch(_){notify('No se pudo recuperar la prueba guardada. Conservamos los datos originales.');return;}
       exam.pos = clamp(Number(exam.pos)||0,0,9);
       if(exam.deadline === null || typeof exam.deadline !== 'number') {
         exam.deadline = null;
@@ -81,7 +84,7 @@
     }
   }
   function saveProgress() { write(STORAGE_PROGRESS,progress); updateTopProgress(); }
-  function saveExam() { if(exam) write(STORAGE_EXAM,exam); else {try{localStorage.removeItem(STORAGE_EXAM)}catch(_){}} }
+  function saveExam() { if(exam) write(STORAGE_EXAM,exam); else window.PAES_STORE.remove(STORAGE_EXAM); }
   function lessonState(tid) {
     if(!progress.lessons[tid] || typeof progress.lessons[tid] !== 'object') progress.lessons[tid] = {step:0,maxSeen:0,passed:[],completed:false};
     const p = progress.lessons[tid];
@@ -163,9 +166,9 @@
     $('overallRing').style.setProperty('--progress',pct+'%');
     const next = priorityTopic();
     const phase=lessonState(next.id),ax=AXIS[next.axis];
-    $('nextLessonReason').textContent=`PRIORIDAD PAES · EJE ${ax.weight}% · ≈${Math.round(unitQuestions(next))} PREGUNTAS DE 65`;
+    $('nextLessonReason').textContent=`RUTA PROPIA · PESO DE ESTUDIO ${ax.weight}%`;
     $('nextLessonTitle').textContent=next.title;
-    $('nextLessonMeta').textContent=phase.completed?`Tu mejor promedio aquí es ${Math.round(topicMastery(next.id))}%. Es el tema que más puntos puede sumarte ahora.`:(phase.maxSeen>0?`Sigue desde la escena ${phase.step+1} de 16 · ${ax.short}`:`Unidad ${next.number} · ${ax.short} · 16 escenas interactivas`);
+    $('nextLessonMeta').textContent=phase.completed?`Tu mejor promedio aquí es ${Math.round(topicMastery(next.id))}%. Es el tema que nuestra ruta de estudio te recomienda reforzar.`:(phase.maxSeen>0?`Sigue desde la escena ${phase.step+1} de 16 · ${ax.short}`:`Unidad ${next.number} · ${ax.short} · 16 escenas interactivas`);
     $('studyNext').style.setProperty('--axis',ax.color);
     $('nextLessonBtn').dataset.nextTopic=next.id;
     $('nextLessonBtn').innerHTML=phase.maxSeen>0&&!phase.completed?'Retomar clase <span aria-hidden="true">→</span>':(phase.completed?'Practicar este tema <span aria-hidden="true">→</span>':'Explorar unidad <span aria-hidden="true">→</span>');
@@ -176,7 +179,7 @@
     const box=$('axisCards');if(!box)return;
     box.innerHTML=Object.entries(AXIS).map(([key,a],i)=>{
       const m=Math.round(axisMastery(key)),n=unitsIn(key),done=TOPICS.filter(t=>t.axis===key&&lessonState(t.id).completed).length;
-      return `<article class="axis-card lvl-${a.level}" style="--axis:${a.color};--axis-soft:${a.soft};--i:${i}"><div class="axis-card-top"><span class="axis-prio">${safe(a.priority)}</span><span class="axis-weight">${a.weight}<small>%</small></span></div><h3>${safe(a.name)}</h3><p>≈ <strong>${a.q} de 65</strong> preguntas · ${n} unidades · ${done}/${n} lecciones</p><div class="axis-meter" role="img" aria-label="Dominio del eje: ${m}%"><i style="width:${m}%"></i></div><div class="axis-card-foot"><span>Dominio <strong>${m}%</strong></span><button type="button" class="axis-go" data-axis-filter="${attr(key)}">Ver unidades <span aria-hidden="true">→</span></button></div></article>`;
+      return `<article class="axis-card lvl-${a.level}" style="--axis:${a.color};--axis-soft:${a.soft};--i:${i}"><div class="axis-card-top"><span class="axis-prio">${safe(a.priority)}</span><span class="axis-weight">${a.weight}<small>%</small></span></div><h3>${safe(a.name)}</h3><p>≈ <strong>${a.q} de 65</strong> preguntas en nuestro ensayo · ${n} unidades · ${done}/${n} lecciones</p><div class="axis-meter" role="img" aria-label="Dominio del eje: ${m}%"><i style="width:${m}%"></i></div><div class="axis-card-foot"><span>Dominio <strong>${m}%</strong></span><button type="button" class="axis-go" data-axis-filter="${attr(key)}">Ver unidades <span aria-hidden="true">→</span></button></div></article>`;
     }).join('');
   }
   function renderHome() {
@@ -186,7 +189,7 @@
     const cards=found.map(t=>{
       const s=lessonState(t.id), n=[0,1,2].filter(i=>testInfo(t.id,i)).length+(s.completed?1:0);
       const axis=AXIS[t.axis];
-      return `<button type="button" class="topic-card lvl-${axis.level}" data-topic="${attr(t.id)}" style="--topic-accent:${axis.color};--topic-soft:${axis.soft};--card-order:${found.indexOf(t)}"><span class="tape" aria-hidden="true"></span><span class="topic-card-top"><span class="topic-card-icon" aria-hidden="true">${safe(t.icon)}</span><span class="topic-card-head"><span class="topic-card-meta">${safe(axis.short)} · ${safe(t.period)}</span><h3>${safe(t.title)}</h3></span><span class="topic-card-num">${safe(t.number)}</span></span><p>${safe(t.subtitle)}</p><span class="topic-card-footer"><span class="card-progress"><b>${n} / 4</b> actividades<span class="card-dots">${Array.from({length:4},(_,i)=>`<i class="${i<n?'active':''}"></i>`).join('')}</span></span><span class="topic-weight" title="Peso del eje en la PAES">Eje ${axis.weight}% · ≈${Math.round(unitQuestions(t))} preg.</span><span class="card-arrow" aria-hidden="true">↗</span></span></button>`;
+      return `<button type="button" class="topic-card lvl-${axis.level}" data-topic="${attr(t.id)}" style="--topic-accent:${axis.color};--topic-soft:${axis.soft};--card-order:${found.indexOf(t)}"><span class="tape" aria-hidden="true"></span><span class="topic-card-top"><span class="topic-card-icon" aria-hidden="true">${safe(t.icon)}</span><span class="topic-card-head"><span class="topic-card-meta">${safe(axis.short)} · ${safe(t.period)}</span><h3>${safe(t.title)}</h3></span><span class="topic-card-num">${safe(t.number)}</span></span><p>${safe(t.subtitle)}</p><span class="topic-card-footer"><span class="card-progress"><b>${n} / 4</b> actividades<span class="card-dots">${Array.from({length:4},(_,i)=>`<i class="${i<n?'active':''}"></i>`).join('')}</span></span><span class="topic-weight" title="Peso didáctico propio, no oficial del DEMRE">Estudio ${axis.weight}%</span><span class="card-arrow" aria-hidden="true">↗</span></span></button>`;
     }).join('');
     $('catalogCount').textContent=`${found.length} ${found.length===1?'unidad disponible':'unidades disponibles'}`;
     $('topicGrid').innerHTML=cards || `<div class="empty-search">No se encontraron temas con ese filtro. Prueba otro término.</div>`;
@@ -204,7 +207,7 @@
     $('topicCrumb').textContent=t.title;
     $('topicHero').dataset.number=t.number;
     $('topicHero').style.setProperty('--axis',AXIS[t.axis].color);
-    $('topicHero').innerHTML=`<div><div class="small-tag">UNIDAD ${safe(t.number)} / ${safe(AXIS[t.axis].name.toUpperCase())}</div><h1>${safe(t.title)}</h1><p>${safe(t.subtitle)}. ${safe(t.hook)}</p><div class="topic-hero-meta"><span class="hero-weight" style="--axis:${AXIS[t.axis].color}">Eje ${AXIS[t.axis].weight}% · ≈${Math.round(unitQuestions(t))} de 65 preguntas</span><span>◷ ${t.duration} min de lección</span><span>${countSlides()} escenas + juegos</span><span>3 pruebas · 30 preguntas</span></div></div><div class="topic-hero-side"><div class="big-icon" aria-hidden="true">${safe(t.icon)}</div><strong>${safe(t.period)}</strong></div>`;
+    $('topicHero').innerHTML=`<div><div class="small-tag">UNIDAD ${safe(t.number)} / ${safe(AXIS[t.axis].name.toUpperCase())}</div><h1>${safe(t.title)}</h1><p>${safe(t.subtitle)}. ${safe(t.hook)}</p><div class="topic-hero-meta"><span class="hero-weight" style="--axis:${AXIS[t.axis].color}">Peso propio de estudio: ${AXIS[t.axis].weight}%</span><span>◷ ${t.duration} min de lección</span><span>${countSlides()} escenas + juegos</span><span>3 pruebas · 30 preguntas</span></div></div><div class="topic-hero-side"><div class="big-icon" aria-hidden="true">${safe(t.icon)}</div><strong>${safe(t.period)}</strong></div>`;
     const lessonButton=state.completed?'Repasar presentación ↗':(state.maxSeen>0?'Continuar presentación →':'Iniciar presentación →');
     $('lessonLauncher').innerHTML=`<div class="lesson-launch"><div class="lesson-launch-icon" aria-hidden="true">${state.completed?'✓':'▶'}</div><div class="lesson-launch-content"><strong>Clase interactiva · ${safe(t.title)}</strong><p>${countSlides()} escenas con mapas, línea de tiempo, juegos de secuencia y asociación, fuentes, animaciones y 3 chequeos de comprensión.</p></div><div class="lesson-launch-action"><small>${state.completed?'Lección completada':(state.maxSeen>0?`Diapositiva ${state.step+1} de ${countSlides()}`:'Primero la explicación')}</small><button class="btn ${state.completed?'btn-outline':'btn-mint'}" id="beginLesson" type="button">${lessonButton}</button></div></div>`;
     $('beginLesson').onclick=()=>openLesson(tid);
@@ -225,17 +228,12 @@
   }
   function shuffle(a) {for(let i=a.length-1;i>0;i--){const j=randomInt(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
   function orderedMicroOptions(tid,quiz,choices,correctIndex) {
-    // Distribution per lesson: one correct answer under A, one under B and one under C.
-    const target=(quiz+TOPICS.findIndex(t=>t.id===tid))%choices.length;
-    const rest=choices.map((_,i)=>i).filter(i=>i!==correctIndex);
-    const base=Array(choices.length);base[target]=correctIndex;
-    let k=0;for(let i=0;i<base.length;i++)if(base[i]===undefined)base[i]=rest[k++];
-    return base.map(i=>({index:i,label:choices[i]}));
-  }
-  function makeBalancedOrders() {
-    // A correct option never occupies the same letter in all the questions.
-    const slots=shuffle([0,0,0,1,1,1,2,2,3,3]);
-    return slots.map(where=>{const a=[0,1,2,3];const rest=shuffle(a.slice(1));rest.splice(where,0,0);return rest;});
+    const state=lessonState(tid);
+    if(!state.microOrders||typeof state.microOrders!=='object')state.microOrders={};
+    if(!ENGINE.isOrder(state.microOrders[quiz],choices.length)){
+      state.microOrders[quiz]=ENGINE.shuffle(choices.map((_,i)=>i));saveProgress();
+    }
+    return state.microOrders[quiz].map(i=>({index:i,label:choices[i]}));
   }
   function burst() {
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -258,7 +256,7 @@
     displayView('lesson');
     $('lessonTopicTitle').textContent=t.title;
     $('lessonTip').textContent=t.trick;
-    $('lessonWeight').textContent=`Eje ${AXIS[t.axis].weight}% de la PAES`;
+    $('lessonWeight').textContent=`Peso propio de estudio: ${AXIS[t.axis].weight}%`;
     $('lessonWeight').style.setProperty('--axis',AXIS[t.axis].color);
     enterDir='fwd';stopAuto();
     renderLesson();
@@ -344,7 +342,7 @@
   }
   function sourceGameMarkup(t) {
     const g=INTERACTIVE[t.id].sourceGame;const done=lessonState(t.id).games.sourcegame;
-    const opts=orderedMicroOptions(t.id,2,g.options,g.answer);
+    const opts=orderedMicroOptions(t.id,'source',g.options,g.answer);
     return `<div class="slide slide-padding">${slideHead('Minijuego · evidencia','Decide como historiador.','Usa la fuente anterior y selecciona la interpretación mejor fundamentada.')}
       <div class="game-banner"><span>RETO 03 / 03</span><strong>${done?'RESUELTO':'PENSAMIENTO CRÍTICO'}</strong></div>
       <div class="source-mission"><span class="source-mission-icon">◎</span><h3>${safe(g.prompt)}</h3><div class="check-options">${opts.map((o,i)=>`<button type="button" data-source-choice="${o.index}" class="check-option ${done&&o.index===g.answer?'correct':slideUI.sourceAnswer===o.index&&!done?'wrong':''}" ${done?'disabled':''}><span>${'ABC'[i]}</span>${safe(o.label)}</button>`).join('')}</div>${done?`<p class="game-feedback good">✓ ${safe(g.explain)}</p>`:slideUI.sourceAnswer!==null?'<p class="game-feedback bad">No es la inferencia más sólida. Pregúntate qué información respalda cada afirmación y vuelve a elegir.</p>':''}</div></div>`;
@@ -361,7 +359,7 @@
   }
   function slideHTML(t,entry) {
     const {type}=entry;
-    if(type==='cover') return `<div class="slide slide-cover" style="--axis:${AXIS[t.axis].color}"><div class="cover-arc"></div><div class="cover-polaroid" aria-hidden="true"><span class="tape"></span><span class="cover-icon">${safe(t.icon)}</span><em>${safe(t.period)}</em></div><div class="cover-stamp" aria-hidden="true"><small>EJE</small>${AXIS[t.axis].weight}%<small>PAES</small></div><div class="slide-cover-content"><div class="slide-kicker">UNIDAD ${safe(t.number)} / HISTORIA LAB</div><h2>${safe(t.title)}.</h2><p>${safe(t.hook)}</p><div class="slide-cover-footer"><span></span> PREPÁRATE PARA ENTENDER, EXPLORAR Y DECIDIR</div></div></div>`;
+    if(type==='cover') return `<div class="slide slide-cover" style="--axis:${AXIS[t.axis].color}"><div class="cover-arc"></div><div class="cover-polaroid" aria-hidden="true"><span class="tape"></span><span class="cover-icon">${safe(t.icon)}</span><em>${safe(t.period)}</em></div><div class="cover-stamp" aria-hidden="true"><small>EJE</small>${AXIS[t.axis].weight}%<small>ESTUDIO</small></div><div class="slide-cover-content"><div class="slide-kicker">UNIDAD ${safe(t.number)} / HISTORIA LAB</div><h2>${safe(t.title)}.</h2><p>${safe(t.hook)}</p><div class="slide-cover-footer"><span></span> PREPÁRATE PARA ENTENDER, EXPLORAR Y DECIDIR</div></div></div>`;
     if(type==='overview') {
       const ctx=[['Panorama general',t.overview.context],...(DEEP[t.id]?.context||[])],c=Math.min(slideUI.tab,ctx.length-1);
       return `<div class="slide slide-padding">${slideHead('02 · Comprende el contexto',t.overview.title,t.overview.lead)}<div class="overview-grid"><div class="overview-main">${ctx.length>1?tabsHTML(ctx.map(x=>x[0]),c):'<h3>¿Qué estaba pasando?</h3>'}<div class="tab-panel" role="tabpanel"><p>${safe(ctx[c][1])}</p></div>${ctx.length>1?`<div class="tab-steps">${c+1} / ${ctx.length} · Revisa todas las pestañas</div>`:''}</div><div class="overview-callout"><strong>PISTA IMPORTANTE</strong><p>${safe(t.overview.spotlight)}</p></div></div><p class="slide-end-note">Tip: primero identifica el contexto y luego interpreta los hechos.</p></div>`;
@@ -536,8 +534,8 @@
     } else return;
     renderLesson(false);
   }
-  function optionsFor(tid,level,n,orders) {
-    const item=BANK[tid][level][n];
+  function optionsFor(tid,level,n,orders,items) {
+    const item=items?.[n]||LEGACY_BANK[tid][level][n];
     const order=orders?.[n] || [0,1,2,3];
     return order.map((orig,i)=>({orig,letter:'ABCD'[i],text:item.choices[orig]}));
   }
@@ -550,27 +548,30 @@
       exam=null;saveExam();
     }
     if(!exam) {
-      exam={topicId:tid,testIdx:idx,pos:0,answers:Array(10).fill(null),flags:Array(10).fill(false),orders:makeBalancedOrders(),deadline:Date.now()+20*60*1000,pausedRemaining:null};
+      exam={topicId:tid,testIdx:idx,pos:0,answers:Array(10).fill(null),flags:Array(10).fill(false),...ENGINE.newShort(BANK[tid][idx]),deadline:Date.now()+20*60*1000,pausedRemaining:null};
       saveExam();
-    }else if(exam.deadline===null) {
-      exam.deadline=Date.now()+Math.max(0,exam.pausedRemaining || 0);exam.pausedRemaining=null;saveExam();
     }
     activeTopic=tid;displayView('exam');
     $('examTitle').textContent=TEST_META[idx].name;
     $('examSubtitle').textContent=`${topic(tid).title} · PRUEBA 0${idx+1} DE 03`;
-    renderExam();stopTimer();ticker=setInterval(tickExam,1000);tickExam();
+    renderExam();stopTimer();if(exam.deadline!==null)ticker=setInterval(tickExam,1000);tickExam();
   }
   function stopTimer(){if(ticker){clearInterval(ticker);ticker=null;}}
   function tickExam(){
-    if(!exam || exam.deadline===null) return;
-    const rem=Math.max(0,Math.ceil((exam.deadline-Date.now())/1000));
+    if(!exam) return;
+    const rem=Math.max(0,Math.ceil((exam.deadline===null?exam.pausedRemaining:exam.deadline-Date.now())/1000));
     $('examTimer').textContent=`${String(Math.floor(rem/60)).padStart(2,'0')}:${String(rem%60).padStart(2,'0')}`;
     $('examTimer').classList.toggle('low',rem<=180);
-    if(rem===0) finishExam(true);
+    if(rem===0 && exam.deadline!==null) finishExam(true);
   }
   function renderExam(resetScroll=false) {
     if(!exam)return;
-    const n=exam.pos, item=BANK[exam.topicId][exam.testIdx][n], opts=optionsFor(exam.topicId,exam.testIdx,n,exam.orders);
+    const paused=exam.deadline===null;
+    $('examWorkspace').hidden=paused;
+    $('examPausePanel').hidden=!paused;
+    $('pauseExam').hidden=paused;
+    if(paused){tickExam();$('resumeExam').focus();return;}
+    const n=exam.pos, item=exam.items[n], opts=optionsFor(exam.topicId,exam.testIdx,n,exam.orders,exam.items);
     const filled=exam.answers.filter(a=>a!==null).length;
     $('examQnumber').textContent=`PREGUNTA ${String(n+1).padStart(2,'0')} / 10`;
     $('examQskill').textContent=TEST_META[exam.testIdx].skill;
@@ -590,26 +591,40 @@
     fitExam();
     requestAnimationFrame(updateExamScrollHint);
   }
+  function pauseExam() {
+    if(!exam)return false;
+    if(exam.deadline!==null){
+      const remaining=exam.deadline-Date.now();
+      if(remaining<=0){finishExam(true);return false;}
+      exam.pausedRemaining=remaining;exam.deadline=null;
+    }
+    stopTimer();saveExam();renderExam();return true;
+  }
+  function resumeExam() {
+    if(!exam || exam.deadline!==null)return;
+    exam.deadline=Date.now()+Math.max(0,exam.pausedRemaining||0);exam.pausedRemaining=null;
+    saveExam();renderExam();stopTimer();ticker=setInterval(tickExam,1000);tickExam();$('pauseExam').focus();
+  }
   function pauseExamAndExit() {
-    if(!exam) return;
-    exam.pausedRemaining=Math.max(0,exam.deadline-Date.now());exam.deadline=null;saveExam();openTopic(exam.topicId);
+    if(!pauseExam()) return;
+    openTopic(exam.topicId);
     notify('Prueba pausada. Puedes continuar cuando quieras.');
   }
   async function finishExam(force=false) {
-    if(!exam) return;
+    if(!exam || exam.deadline===null) return;
     if(force) window.uiDismiss?.();
     const empty=exam.answers.filter(a=>a===null).length,flagged=exam.flags.filter(Boolean).length;
     if(!force && !await uiConfirm({title:'¿Finalizar y corregir la prueba?',
       message:empty?`Te ${empty===1?'queda 1 pregunta':`quedan ${empty} preguntas`} sin responder: contarán como incorrectas.`:'Respondiste todas las preguntas. Después verás la corrección comentada y tu puntaje estimado.',
       stats:[[exam.answers.length-empty,'Respondidas','ok'],[empty,'Sin responder',empty?'warn':''],[flagged,'Marcadas',flagged?'warn':'']],
       confirmText:'Finalizar y corregir',cancelText:'Seguir respondiendo'})) return;
-    if(!exam) return; // el tiempo pudo agotarse mientras se confirmaba
+    if(!exam || exam.deadline===null) return; // el estado pudo cambiar mientras se confirmaba
     stopTimer();
-    const curr=exam,correct=curr.answers.filter((a,i)=>a===BANK[curr.topicId][curr.testIdx][i].answer).length;
+    const curr=exam,correct=curr.answers.filter((a,i)=>a===curr.items[i].answer).length;
     const percentage=correct*10;
     const key=curr.topicId+':'+curr.testIdx;
     const old=testInfo(curr.topicId,curr.testIdx);
-    progress.results[key]={best:Math.max(old?.best||0,percentage),last:percentage,attempts:(old?.attempts||0)+1,lastResult:{answers:[...curr.answers],flags:[...curr.flags],orders:curr.orders.map(a=>[...a]),correct,submittedAt:Date.now(),timedOut:force}};
+    progress.results[key]={best:Math.max(old?.best||0,percentage),last:percentage,attempts:(old?.attempts||0)+1,lastResult:{answers:[...curr.answers],flags:[...curr.flags],orders:curr.orders.map(a=>[...a]),items:curr.items,bankVersion:curr.bankVersion,questionOrder:curr.questionOrder,correct,submittedAt:Date.now(),timedOut:force}};
     saveProgress();
     resultLocation={topicId:curr.topicId,testIdx:curr.testIdx};
     exam=null;saveExam();
@@ -637,8 +652,9 @@
     if(!resultLocation)return;
     const {topicId:tid,testIdx:idx}=resultLocation;
     const answers=testInfo(tid,idx).lastResult.answers;
+    const items=testInfo(tid,idx).lastResult.items;
     $('resultReview').innerHTML=answers.map((a,n)=>{
-      const item=BANK[tid][idx][n],opts=optionsFor(tid,idx,n,resultOrders(tid,idx)),correct=a===item.answer;
+      const item=items?.[n]||LEGACY_BANK[tid][idx][n],opts=optionsFor(tid,idx,n,resultOrders(tid,idx),items),correct=a===item.answer;
       if(lastReviewOnlyWrong&&correct)return '';
       const chosen=opts.find(o=>o.orig===a);
       const right=opts.find(o=>o.orig===item.answer);
@@ -649,9 +665,10 @@
     if(!resultLocation)return;
     const {topicId:tid,testIdx:idx}=resultLocation;
     const answers=testInfo(tid,idx).lastResult.answers;
+    const items=testInfo(tid,idx).lastResult.items;
     const rows=[['N°','Tema','Prueba','Pregunta','Tu alternativa','Alternativa correcta','Estado','Explicación']];
     answers.forEach((a,n)=>{
-      const item=BANK[tid][idx][n],opts=optionsFor(tid,idx,n,resultOrders(tid,idx)),sel=opts.find(o=>o.orig===a),right=opts.find(o=>o.orig===item.answer);
+      const item=items?.[n]||LEGACY_BANK[tid][idx][n],opts=optionsFor(tid,idx,n,resultOrders(tid,idx),items),sel=opts.find(o=>o.orig===a),right=opts.find(o=>o.orig===item.answer);
       rows.push([n+1,topic(tid).title,idx+1,item.text,sel?.letter||'',right.letter,a===item.answer?'Correcta':'Incorrecta o pendiente',item.why]);
     });
     const csv='\ufeff'+rows.map(row=>row.map(val=>'"'+String(val).replace(/"/g,'""')+'"').join(';')).join('\r\n');
@@ -702,8 +719,10 @@
       if(e.key==='ArrowRight'){e.preventDefault();nextSlide();}if(e.key==='ArrowLeft'){e.preventDefault();goSlide(slideIndex-1);}
     });
     $('exitExam').onclick=pauseExamAndExit;
+    $('pauseExam').onclick=pauseExam;
+    $('resumeExam').onclick=resumeExam;
     $('examOptions').addEventListener('click',e=>{
-      const btn=e.target.closest('[data-choice]');if(!btn||!exam)return;
+      const btn=e.target.closest('[data-choice]');if(!btn||!exam||exam.deadline===null)return;
       exam.answers[exam.pos]=Number(btn.dataset.choice);saveExam();renderExam();
       const sel=document.querySelector('#examOptions .exam-option.selected');if(sel){sel.classList.add('fx-pop');}
     });
@@ -719,16 +738,16 @@
       if(dt<600&&Math.abs(dx)>70&&Math.abs(dy)<45){if(dx<0)nextSlide();else goSlide(slideIndex-1);}
     },{passive:true});
     document.addEventListener('keydown',e=>{
-      if($('view-exam').classList.contains('hidden')||!exam||e.altKey||e.ctrlKey||e.metaKey||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;
+      if($('view-exam').classList.contains('hidden')||!exam||exam.deadline===null||e.altKey||e.ctrlKey||e.metaKey||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;
       const k=e.key.toUpperCase(),idx='ABCD'.indexOf(k);
       if(idx>=0&&k.length===1){const opt=$('examOptions').children[idx];if(opt){e.preventDefault();opt.click();}}
       else if(e.key==='ArrowRight'){e.preventDefault();$('examNext').click();}
       else if(e.key==='ArrowLeft'&&exam.pos>0){e.preventDefault();$('examPrev').click();}
     });
-    $('examNumbers').addEventListener('click',e=>{const btn=e.target.closest('[data-qpos]');if(!btn||!exam)return;exam.pos=Number(btn.dataset.qpos);saveExam();renderExam(true);});
-    $('examPrev').onclick=()=>{if(!exam)return;exam.pos=Math.max(0,exam.pos-1);saveExam();renderExam(true);};
-    $('examNext').onclick=()=>{if(!exam)return;exam.pos=(exam.pos+1)%10;saveExam();renderExam(true);};
-    $('examFlag').onclick=()=>{if(!exam)return;exam.flags[exam.pos]=!exam.flags[exam.pos];saveExam();renderExam();};
+    $('examNumbers').addEventListener('click',e=>{const btn=e.target.closest('[data-qpos]');if(!btn||!exam||exam.deadline===null)return;exam.pos=Number(btn.dataset.qpos);saveExam();renderExam(true);});
+    $('examPrev').onclick=()=>{if(!exam||exam.deadline===null)return;exam.pos=Math.max(0,exam.pos-1);saveExam();renderExam(true);};
+    $('examNext').onclick=()=>{if(!exam||exam.deadline===null)return;exam.pos=(exam.pos+1)%10;saveExam();renderExam(true);};
+    $('examFlag').onclick=()=>{if(!exam||exam.deadline===null)return;exam.flags[exam.pos]=!exam.flags[exam.pos];saveExam();renderExam();};
     $('finishExam').onclick=()=>finishExam(false);
     $('resultTopicBack').onclick=()=>goBackResult();
     $('resultGoTopic').onclick=()=>goBackResult();

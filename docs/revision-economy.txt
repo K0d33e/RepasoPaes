@@ -1,0 +1,148 @@
+REVISIÓN EDITORIAL — SISTEMA ECONÓMICO Y TRABAJO
+Fecha: 21 de octubre de 2026.
+
+ALCANCE
+78 ítems revisados individualmente en enunciado, cuatro alternativas,
+clave conceptual, explicación y coherencia con la fuente o visualización:
+- 30 de mercado: mercado/1/1 a mercado/3/10.
+- 30 de trabajo: trabajo/1/1 a trabajo/3/10.
+- 18 del eje E del simulador clásico: posiciones globales 52 a 65 y 101 a 104.
+Se leyó el banco activo tras aplicar questions-plus.js. Los números del
+clásico son posiciones globales en Q, incluyendo los 39 adicionales, no
+posiciones dentro del filtro del eje económico.
+
+ENTREGA
+review-economy.js contiene 60 registros short y 18 classic explícitos,
+redactados individualmente. Cada choices tiene la correcta en posición 0,
+seguida de tres distractores. El consumidor debe distribuir las posiciones
+de respuesta. Este archivo no altera por sí solo la sesión de un alumno.
+No se modificaron preguntas base, lógica de aplicación ni pruebas.
+
+CRITERIOS Y HALLAZGOS
+1. Se reemplazaron alternativas ajenas al problema económico o laboral
+   por errores conceptuales próximos: movimiento frente a desplazamiento,
+   costos privados frente a externalidades, competencia frente a colusión,
+   regulación frente a provisión pública, contrato frente a fiscalización.
+2. Se precisaron los supuestos en oferta y demanda. El precio del propio
+   bien genera movimientos sobre una curva; costos, tecnología, ingreso o
+   preferencias pueden desplazar la curva correspondiente. Mercado 3/4
+   distingue el aumento determinado de precio del cambio indeterminado
+   de cantidad ante demanda mayor y oferta menor.
+3. Mercado 2/5 usa precio menos costo para evaluar margen por unidad;
+   se evita confundir mayor precio con mayor ganancia total. Mercado 2/6
+   distingue valor exportado de volumen exportado.
+4. El nivel 3 incorpora análisis y límites de inferencia: distribución de
+   subsidios, crecimiento frente a desarrollo, comparaciones ambientales,
+   poder de mercado sin imputar automáticamente abuso o colusión, riesgos
+   externos, evaluación de reformas y explicaciones multicausales.
+5. Trabajo 3/8 diferencia número de accidentes y riesgo relativo a una
+   población u horas de exposición. Clásico 65 distingue tasa de desempleo
+   de número de ocupados y de cambios en salarios reales.
+6. Se diferencia la representación sindical de la fiscalización de la
+   Dirección del Trabajo, la función jurisdiccional de tribunales y las
+   funciones de administradores del seguro de accidentes. Se explica que
+   el contrato documenta condiciones dentro de un marco legal y no prueba
+   por sí solo cumplimiento efectivo.
+7. Las preguntas sobre digitalización evitan deducir resultados uniformes
+   para trabajadores, salarios y empleo. Las de investigación distinguen
+   coincidencia temporal, correlación y prueba de causalidad.
+8. Se mantiene la distinción CAE/CTC: porcentaje anual frente a monto total
+   en dinero. La comparación por CAE requiere igual monto, plazo y
+   características. No se equipara con tasa de interés aislada o cuota.
+9. Los enunciados que aludían a un gráfico o tabla no proporcionado se
+   transformaron en escenarios autosuficientes y se corrigió su fuente.
+   Se conservaron las visualizaciones heredadas que seguían siendo
+   coherentes. En trabajo 3/1 se explica que la tabla de capacitación
+   orienta la comparación, pero no demuestra resultados de empleo.
+10. Se evitaron respuestas correctas sistemáticamente más largas y se
+    revisó la semejanza de extensiones entre opciones. Esta comprobación
+    es descriptiva; no constituye calibración psicométrica ni asegura
+    igual dificultad.
+
+CORRECCIONES TRAS REVISIÓN CRUZADA
+Se hizo una pasada focalizada sobre 12 registros: mercado 1/2, 1/6,
+3/4, 3/5, 3/6, 3/7, 3/9; trabajo 2/10, 3/2, 3/5, 3/8; y clásico 64.
+Se precisa que el alza de costos marginales desplaza la oferta a la
+izquierda. Se reemplazan distractores de restauración de cosecha, promesas
+de eliminar riesgos y tres alternativas limitadas con la palabra «solo».
+Se utilizan conjuntos de indicadores y mecanismos comparables. Las
+preguntas de mercado 3/6–7 y trabajo 3/2 piden comparar evidencia concreta,
+evitando que la clave se reconozca únicamente por un lenguaje más prudente.
+Trabajo 2/10 pregunta por una hipótesis que vincula directamente formación
+y digitalización; otras explicaciones de capacitación no satisfacen ese
+vínculo. Clásico 64 pregunta expresamente por tareas y perfiles: una posible
+reducción de accidentes deja de competir como segunda consecuencia válida.
+
+REFERENCIAS Y LÍMITES DE LA CONSULTA
+Correspondencia curricular: funcionamiento del mercado, Estado y modelos
+de desarrollo; derechos, instituciones, organizaciones y transformaciones
+del trabajo. Se tomó como marco el temario Admisión 2027 indicado por el
+proyecto y su lectura ya documentada en auditoria-demre-2026-10-21.txt.
+El acceso web directo al PDF devolvió timeout en dos intentos durante esta
+subrevisión; no se afirma una nueva lectura completa de ese documento.
+https://acceso.mineduc.cl/wp-content/uploads/2026/03/Temario-PAESRegular-2026-Historia-v2.pdf
+
+DEMRE, publicaciones de Invierno Admisión 2027: se comprobó la publicación
+de la prueba de Historia aplicada el 17 de junio de 2026 y de su clavijero
+publicado el 17 de julio. Las páginas identifican documentos oficiales;
+esta revisión no atribuye sus claves a preguntas originales del proyecto.
+https://demre.cl/publicaciones/2027/pruebas-oficiales-paes-invierno-p2027
+https://demre.cl/publicaciones/2027/2027-26-06-17-paes-invierno-historia-p2027
+https://demre.cl/publicaciones/2027/2027-26-07-17-clavijero-paes-invierno-historia-p2027
+
+Banco Central de Chile: definición de inflación y pérdida de poder de
+compra del dinero. Referencia para clásicos 58, 59 y 104.
+https://www.bcentral.cl/areas/politica-monetaria
+
+SERNAC: CAE y comparación de ofertas en condiciones equivalentes.
+Referencia para clásico 103; se conserva la distinción con CTC.
+https://www.sernac.gob.cl/portal/604/w3-propertyvalue-64453.html
+
+Dirección del Trabajo: fiscalización y límites de sus funciones frente a
+las actuaciones judiciales. El reclamo administrativo por despido puede
+dar lugar a conciliación; no es una sentencia de tribunal laboral.
+https://www.dt.gob.cl/portal/1626/w3-article-125086.html
+https://dt.gob.cl/portal/1626/articles-121755_recurso_1.pdf
+
+BCN, Ley 16.744, artículo 7: vínculo causal directo entre enfermedad
+profesional y ejercicio del trabajo. Referencia para trabajo 1/9.
+https://www.bcn.cl/leychile/Navegar?idNorma=28650&idParte=8745412
+
+Dirección del Trabajo: se verificó que la reducción de jornada ordinaria
+de 44 a 42 horas rige desde el 26 de abril de 2026 y la etapa de 40 horas
+desde el 26 de abril de 2028. No se introdujo en estos 78 ítems un máximo
+numérico universal que ignore fechas, excepciones o regímenes especiales.
+https://www.dt.gob.cl/portal/1626/w3-article-129225.html
+https://www.dt.gob.cl/portal/1626/articles-127100_archivo_01.pdf
+
+VERIFICACIÓN
+node --check review-economy.js: correcto.
+Ejecución en contexto VM aislado: 60 short y 18 classic; los 78 registros
+contienen cuatro alternativas diferentes. La revisión conceptual es
+editorial y no se deduce de esa verificación estructural.
+
+Los ítems y escenarios redactados son originales. Las cifras se señalan
+como hipotéticas. No reproducen preguntas DEMRE ni cuentan con aprobación,
+certificación o aval del DEMRE. La correspondencia curricular no equivale
+a cobertura exhaustiva, nivel oficial o validación psicométrica PAES.
+
+SEGUNDA LECTURA INDEPENDIENTE DE CIUDADANÍA (SOLO LECTURA)
+Se revisaron los 90 registros de review-citizenship.js: 60 cortos y 30
+clásicos, comparando sus alternativas con el enunciado, explicación,
+fuente y visualización efectivos después de aplicar base y questions-plus.
+Se comprobaron los índices globales del clásico y cuatro alternativas
+únicas por registro. No se detectó una clave incorrecta ni una segunda
+respuesta inequívocamente válida en esta lectura editorial.
+
+Observaciones comunicadas al integrador, sin editar el archivo ajeno:
+- democracia/1/1: el caso ejemplifica distribución de funciones, pero la
+  correcta añade controles recíprocos que no se describen expresamente.
+  Conviene precisar la alternativa o incorporar un control al escenario.
+- democracia/2/3: se alude a un cuadro sin visualización proporcionada.
+  Los hechos sí aparecen en el texto; conviene describirlos como escenario.
+- ciudadania/2/8: se mencionan titulares y gráfico no proporcionados.
+  Conviene hacer el escenario autosuficiente o agregar datos concretos.
+- Algunas preguntas de nivel 3 siguen siendo reconocimiento conceptual
+  directo: democracia/3/4 y ciudadania/3/2, 3/3, 3/5, 3/7 y 3/10. Requieren
+  situaciones o evidencias específicas para sostener una mayor exigencia
+  de análisis. Esta observación es pedagógica, no un error en sus claves.

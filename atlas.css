@@ -785,3 +785,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 .mini-segs i.done{background:linear-gradient(90deg,#e2b866,#d08a3c);box-shadow:0 0 6px rgba(226,184,102,.35)}
 .mini-segs i.doing{background:linear-gradient(90deg,#c9a35e var(--sp,0%),rgba(243,230,201,.16) 0)}
 @media (max-width:1100px){.mini-title small{display:none}}
+/* Mantener el encabezado dentro de la pantalla en las pruebas móviles. */
+@media (max-width:590px){.header-mini{display:none}}

@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="atlas.css">
   <link rel="stylesheet" href="paes-score.css">
   <link rel="stylesheet" href="ui-dialog.css">
+  <link rel="stylesheet" href="exam-pause.css">
 </head>
 <body>
   <a class="skip" href="#main">Saltar al contenido principal</a>
@@ -62,12 +63,12 @@
           <div class="overall-progress"><div class="progress-ring" id="overallRing" style="--progress:0%" aria-hidden="true"><span id="overallPct">0%</span></div><div class="overall-detail"><span class="mini-overline">TU AVANCE TOTAL</span><strong id="overallLabel">Empieza tu recorrido</strong><div class="overall-note" id="overallNote">0 lecciones y 0 pruebas completadas</div><div class="overall-track"><span id="overallBar"></span></div></div></div>
         </div>
         <section class="weight-board" id="weightBoard" aria-labelledby="weightTitle">
-          <div class="weight-head"><div><div class="section-kicker">02 / DÓNDE SE JUEGA TU PUNTAJE</div><h2 id="weightTitle">Estudia según lo que <em>más pesa.</em></h2><p>De cada 65 preguntas, la mayoría corresponde a Historia. Tu ruta se ordena según el peso de cada eje y lo que te falta dominar.</p></div>
-          <div class="weight-score"><span class="mini-overline">PREPARACIÓN PONDERADA</span><strong id="weightedScore">0%</strong><small>Promedio de tus mejores pruebas, ponderado 56 · 31 · 13</small></div></div>
-          <div class="weight-strip" role="img" aria-label="Distribución de la prueba: 56% Historia, 31% Formación ciudadana, 13% Sistema económico"><span class="ws-h" style="--w:56%">56%</span><span class="ws-c" style="--w:31%">31%</span><span class="ws-e" style="--w:13%">13%</span></div>
+          <div class="weight-head"><div><div class="section-kicker">02 / ORGANIZA TU ESTUDIO</div><h2 id="weightTitle">Distribuye tu <em>práctica.</em></h2><p>Usamos una distribución didáctica propia de 56% · 31% · 13% para organizar el estudio. El temario DEMRE no fija esos porcentajes por eje. La ruta considera estos pesos y lo que te falta dominar.</p></div>
+          <div class="weight-score"><span class="mini-overline">PREPARACIÓN PONDERADA</span><strong id="weightedScore">0%</strong><small>Promedio ponderado con pesos propios 56 · 31 · 13; no equivale a puntaje PAES</small></div></div>
+          <div class="weight-strip" role="img" aria-label="Distribución propia de estudio: 56% Historia, 31% Formación ciudadana, 13% Sistema económico"><span class="ws-h" style="--w:56%">56%</span><span class="ws-c" style="--w:31%">31%</span><span class="ws-e" style="--w:13%">13%</span></div>
           <div class="axis-cards" id="axisCards"></div>
         </section>
-        <div class="study-next" id="studyNext" aria-label="Próximo paso de estudio"><div class="study-next-icon" aria-hidden="true">↗</div><div class="study-next-copy"><span id="nextLessonReason">PRIORIDAD SEGÚN PESO PAES</span><strong id="nextLessonTitle">Tu primera unidad te espera</strong><p id="nextLessonMeta">Comienza explorando el origen de las repúblicas modernas.</p></div><button type="button" class="btn btn-dark" id="nextLessonBtn">Ir a mi siguiente paso <span aria-hidden="true">→</span></button></div>
+        <div class="study-next" id="studyNext" aria-label="Próximo paso de estudio"><div class="study-next-icon" aria-hidden="true">↗</div><div class="study-next-copy"><span id="nextLessonReason">PRIORIDAD DE NUESTRA RUTA</span><strong id="nextLessonTitle">Tu primera unidad te espera</strong><p id="nextLessonMeta">Comienza explorando el origen de las repúblicas modernas.</p></div><button type="button" class="btn btn-dark" id="nextLessonBtn">Ir a mi siguiente paso <span aria-hidden="true">→</span></button></div>
         <div class="filters-bar" aria-label="Filtrar temas">
           <div class="filters" id="filterControls">
             <button class="filter active" type="button" data-filter="Todos" aria-pressed="true">Todos <b>9</b></button>
@@ -79,9 +80,10 @@
         </div>
         <div class="catalog-header"><div><span class="catalog-kicker">BIBLIOTECA DE TEMAS</span><h3>Explora las unidades</h3></div><span class="catalog-count" id="catalogCount">9 unidades disponibles</span></div>
         <div id="topicGrid" class="topic-grid" aria-live="polite"></div>
-        <div class="bottom-banner"><div><span class="banner-label">ENSAYO PONDERADO</span><h3>Simula la prueba con la proporción real.</h3><p>65 preguntas distribuidas como en la PAES: 36 de Historia, 20 de Formación ciudadana y 9 de Sistema económico, elegidas al azar en cada intento.</p></div><a class="btn btn-dark" href="clasico/index.html">Abrir ensayo ponderado <span aria-hidden="true">↗</span></a></div>
-        <section class="history-board" aria-labelledby="historyTitle"><div class="history-head"><div><div class="section-kicker">03 / TU HISTORIAL</div><h2 id="historyTitle">Tus ensayos y <em>puntajes PAES.</em></h2></div><button class="btn btn-outline hidden" id="clearHistory" type="button">Borrar historial</button></div><div class="history" id="historyHome"></div></section>
-        <p class="home-disclaimer">Material educativo independiente y gratuito. Presentaciones, microactividades y preguntas originales en formato PAES; no reproducen ítems oficiales del DEMRE. Para practicar con pruebas oficiales anteriores, usa el enlace al portal DEMRE al pie de la página. Los puntajes son estimaciones con la tabla de transformación oficial del DEMRE (PAES Regular, Admisión 2025), no puntajes PAES oficiales.</p>
+        <div class="bottom-banner"><div><span class="banner-label">ENSAYO PONDERADO</span><h3>Practica con un ensayo completo.</h3><p>65 preguntas con distribución propia: 36 de Historia, 20 de Formación ciudadana y 9 de Sistema económico. Selección aleatoria, 120 minutos y opción de pausar para estudiar a tu ritmo.</p></div><a class="btn btn-dark" href="clasico/index.html">Abrir ensayo ponderado <span aria-hidden="true">↗</span></a></div>
+        <section class="history-board" aria-labelledby="historyTitle"><div class="history-head"><div><div class="section-kicker">03 / TU HISTORIAL</div><h2 id="historyTitle">Tus ensayos y <em>puntajes estimados.</em></h2></div><button class="btn btn-outline hidden" id="clearHistory" type="button">Borrar historial</button></div><div class="history" id="historyHome"></div></section>
+        <p class="home-disclaimer">Material educativo independiente y gratuito. Presentaciones, microactividades y preguntas originales en formato PAES; no reproducen ítems oficiales del DEMRE. Para practicar con pruebas oficiales anteriores, usa el enlace al portal DEMRE al pie de la página. Los puntajes son estimaciones con la tabla de transformación oficial del DEMRE (PAES de Invierno, Admisión 2027), no puntajes PAES oficiales.</p>
+<details class="home-disclaimer"><summary>Revisión curricular y fuentes · 21 de octubre de 2026</summary><p>Las nueve unidades se vinculan con los tres ejes del temario de Admisión 2027. Las fechas y casos complementarios ayudan a contextualizar; no constituyen una lista oficial de conocimientos obligatorios. Las preguntas son originales y no cuentan con validación del DEMRE. El nivel de dificultad y los puntajes son orientativos.</p><p>Consulta el <a href="https://acceso.mineduc.cl/wp-content/uploads/2026/03/Temario-PAESRegular-2026-Historia-v2.pdf" target="_blank" rel="noopener">temario oficial</a>, las <a href="https://demre.cl/publicaciones/2027/pruebas-oficiales-paes-invierno-p2027" target="_blank" rel="noopener">pruebas de Invierno y sus clavijeros</a> y la <a href="https://demre.cl/publicaciones/2026/pruebas-oficiales-paes-regular-p2026" target="_blank" rel="noopener">selección Regular y sus clavijeros</a>.</p></details>
       </div>
     </section>
 
@@ -125,9 +127,10 @@
 
     <section class="view hidden" id="view-exam" aria-label="Prueba por tema">
       <div class="container">
-        <div class="exam-topline"><button type="button" class="back-link" id="exitExam">← Guardar y salir</button><div class="exam-title-group"><div id="examSubtitle" class="section-kicker"></div><h1 id="examTitle"></h1></div><span class="exam-keys" aria-hidden="true">Atajos: A–D responder · ← → navegar</span><span class="exam-timer" id="examTimer" role="timer" aria-label="Tiempo disponible">20:00</span></div>
+        <div class="exam-topline"><button type="button" class="back-link" id="exitExam">← Guardar y salir</button><div class="exam-title-group"><div id="examSubtitle" class="section-kicker"></div><h1 id="examTitle"></h1></div><span class="exam-keys" aria-hidden="true">Atajos: A–D responder · ← → navegar</span><button type="button" class="btn btn-outline" id="pauseExam">Ⅱ Pausar</button><span class="exam-timer" id="examTimer" role="timer" aria-label="Tiempo disponible">20:00</span></div>
         <div class="exam-progress"><span id="examProgressFill"></span></div>
-        <div class="exam-layout">
+        <div class="pause-panel" id="examPausePanel" hidden aria-labelledby="examPauseTitle"><span class="pause-symbol" aria-hidden="true">Ⅱ</span><h2 id="examPauseTitle">Prueba pausada</h2><p>El tiempo está detenido. Tus respuestas y marcas se conservan en este navegador, también si recargas la página.</p><button class="btn btn-dark" type="button" id="resumeExam">Reanudar prueba →</button></div>
+        <div class="exam-layout" id="examWorkspace">
           <article class="exam-card"><div class="exam-scroll" id="examScroll"><div class="exam-fit" id="examFit"><div class="q-metadata"><span id="examQnumber" class="q-tag q-tag-primary"></span><span id="examQskill" class="q-tag"></span><button type="button" id="examFlag" class="flag-button">☆ Marcar para revisar</button></div>
             <div id="examSource"></div><h2 id="examQuestion"></h2><div class="exam-options" id="examOptions" role="group" aria-label="Selecciona una alternativa"></div></div></div>
             <div class="exam-card-bottom"><span id="examScrollHint" aria-live="off">Selecciona <strong>una sola respuesta</strong>.</span><div class="button-group"><button class="btn btn-outline" type="button" id="examPrev">← Anterior</button><button class="btn btn-dark" type="button" id="examNext">Siguiente →</button></div></div>
@@ -146,13 +149,19 @@
       </div>
     </section>
   </main>
-  <footer class="site-footer"><div class="container footer-inner"><div><strong>HISTORIA<span>LAB</span></strong><p>Estudia con evidencia, no solo con memoria.</p></div><div class="footer-links"><a href="https://acceso.mineduc.cl/wp-content/uploads/2026/03/Temario-PAESRegular-2026-Historia-v2.pdf" target="_blank" rel="noopener noreferrer">Temario DEMRE 2027 ↗</a><a href="https://portaldemre.demre.cl/publicaciones/2025/pruebas-oficiales-paes-regular-p2025" target="_blank" rel="noopener noreferrer">Preguntas oficiales anteriores ↗</a><span>Proyecto educativo no oficial · Sin conexión a servicios externos</span></div></div></footer>
+  <footer class="site-footer"><div class="container footer-inner"><div><strong>HISTORIA<span>LAB</span></strong><p>Estudia con evidencia, no solo con memoria.</p></div><div class="footer-links"><a href="https://acceso.mineduc.cl/wp-content/uploads/2026/03/Temario-PAESRegular-2026-Historia-v2.pdf" target="_blank" rel="noopener noreferrer">Temario DEMRE 2027 ↗</a><a href="https://demre.cl/publicaciones/2026/pruebas-oficiales-paes-regular-p2026" target="_blank" rel="noopener noreferrer">Preguntas oficiales anteriores ↗</a><span>Proyecto educativo no oficial · Sin conexión a servicios externos</span></div></div></footer>
   <div role="status" aria-live="polite" id="toast" class="toast" aria-atomic="true"></div>
   <script src="content.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="questions-plus.js" defer></script>
   <script src="interactive-content.js" defer></script>
   <script src="deep-content.js" defer></script>
+<div class="save-status" id="saveStatus" role="status" aria-live="polite"><span id="saveMessage">Tu progreso se guarda en este navegador.</span><button type="button" id="retrySave" hidden>Reintentar guardado</button></div>
+<script src="exam-engine.js" defer></script>
+<script src="review-history.js" defer></script>
+<script src="review-citizenship.js" defer></script>
+<script src="review-economy.js" defer></script>
+<script src="study-storage.js" defer></script>
   <script src="paes-score.js" defer></script>
   <script src="ui-dialog.js" defer></script>
   <script src="app.js" defer></script>

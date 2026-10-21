@@ -1,0 +1,20 @@
+/* Compartido por las pruebas del aula y el simulador. */
+[hidden] { display: none !important; }
+.pause-panel {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  text-align: center;
+  color: #30271f;
+  background: #fffaf0;
+  border: 1px solid #cabda7;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px #30271f12;
+}
+.pause-panel h2 { margin: 0 0 1rem; font-size: 2rem; }
+.pause-panel p { line-height: 1.6; margin-bottom: 1.5rem; }
+.pause-panel .pause-symbol { font-size: 2rem; display: block; margin-bottom: 1rem; }
+.exam-topline, .topbar { flex-wrap: wrap; gap: 12px; }
+.save-status { position:fixed; bottom:8px; right:12px; z-index:50; max-width:calc(100vw - 24px); padding:5px 9px; border-radius:7px; background:#fffaf0f2; color:#4c574a; font-size:11px; box-shadow:0 1px 6px #30271f16; pointer-events:none; }
+.save-status.is-error { top:74px; bottom:auto; padding:12px 16px; color:#7c241b; border:1px solid #c97865; pointer-events:auto; font-size:13px; }
+.save-status button { display:block; margin-top:8px; padding:7px 12px; border:1px solid currentColor; border-radius:6px; background:#fff; color:inherit; font:inherit; cursor:pointer; }

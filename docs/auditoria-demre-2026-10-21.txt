@@ -1,0 +1,286 @@
+REVISIÓN DEMRE — HistoriaLab Atlas PAES 2027
+Fecha de consulta: 21 de octubre de 2026.
+Estado: revisión integral del banco, sorteo por intento, guardado y pausa implementados.
+
+AMPLIACIÓN DE LA REVISIÓN Y ESTADO ACTUAL
+Se revisaron individualmente los 374 ítems activos: 270 de las pruebas
+cortas y 104 del simulador. Las revisiones explícitas de enunciados,
+claves, explicaciones y distractores se integran desde review-history.js,
+review-citizenship.js y review-economy.js. Los bancos base se conservan
+para retomar intentos y corregir resultados anteriores sin cambiarles
+las preguntas o las letras ya seleccionadas.
+Se reemplazaron distractores anacrónicos, absurdos o ajenos al contexto
+por confusiones conceptuales plausibles. Hubo revisión cruzada por eje;
+las precisiones y límites están en los tres archivos docs/revision-*.txt.
+No se detectaron otras claves incorrectas ni múltiples alternativas
+válidas después de aplicar las correcciones de esa revisión.
+
+La referencia más reciente consultada es Invierno Admisión 2027, junto
+con el temario Regular Admisión 2027 y la selección Regular Admisión 2026:
+https://demre.cl/publicaciones/listado-2027
+https://demre.cl/publicaciones/2027/pruebas-oficiales-paes-invierno-p2027
+https://demre.cl/publicaciones/pdf/2027-26-06-17-paes-invierno-oficial-historia-p2027.pdf
+https://demre.cl/publicaciones/pdf/2027-26-07-17-clavijero-paes-invierno-historia.pdf
+La tabla de puntaje actual se sustituyó por los 61 valores de este último
+clavijero (forma 121, julio de 2026), comprobados fila por fila. Los
+resultados anteriores conservan su puntaje y los nuevos registran la
+referencia utilizada. La referencia de 2025 mencionada más abajo describe
+la primera revisión y ya no es la tabla usada para los intentos nuevos.
+Las claves de preguntas oficiales sirven de referencia de formato; las
+preguntas originales del sitio no tienen claves certificadas por DEMRE.
+
+Se eliminó la cuota fija 3A/3B/2C/2D de las pruebas cortas y el uso de
+rotaciones predecibles para intentos nuevos. Cada pregunta sortea sus
+cuatro alternativas de forma independiente y mueve la clave con el texto.
+Las preguntas cortas también cambian de orden en cada intento. El azar
+admite letras repetidas; no se impone un patrón alternativo artificial.
+La sesión guarda preguntas, orden, respuestas, marcas, posición y reloj.
+Pausar congela el reloj y oculta el contenido hasta Reanudar, incluso
+después de recargar, en el aula y todas las modalidades del simulador.
+
+El guardado conserva las claves existentes de localStorage, comprueba
+la escritura y mantiene una copia anterior cuando hay espacio. Ante
+fallos muestra un aviso y conserva cambios pendientes en memoria para
+reintentar; no puede garantizar persistencia si el navegador deniega
+el almacenamiento. No hay sincronización entre dispositivos o dominios.
+
+COMPROBACIONES ACTUALES
+node --test tests/content-audit.cjs tests/reviewed-content.cjs tests/exam-engine.cjs tests/study-storage.cjs tests/score-current.cjs tests/browser-pause.cjs
+node scripts/export-audit.cjs
+Incluyen las 27 pruebas cortas, modalidades del simulador, migración de
+sesiones antiguas, claves tras barajar, pausa y recarga, historial,
+fallo y recuperación de escritura y tabla de puntaje actual.
+Resultado final: 46 comprobaciones aprobadas, cero fallos. Sintaxis de
+todos los JavaScript principales y del simulador comprobada con node
+--check; matriz de 374 preguntas regenerada. La revisión independiente
+de integración detectó y permitió corregir el bloqueo permanente tras
+un error transitorio de lectura: Reintentar vuelve a comprobar el
+almacenamiento y conserva la protección de datos corruptos sin respaldo.
+
+REGISTRO DE LA PRIMERA REVISIÓN (AMPLIADO Y ACTUALIZADO ARRIBA)
+
+ALCANCE Y LÍMITES
+Se consultó el temario Regular Admisión 2027 y pruebas y clavijeros de
+Invierno y Regular Admisión 2026. El banco del sitio contiene preguntas
+originales. La similitud temática no convierte sus claves en claves DEMRE.
+No se certifica una revisión documental individual completa de cada ítem
+ni de cada afirmación de las presentaciones ampliadas.
+Sí se realizó una revisión editorial y conceptual individual de los 374
+ítems activos: enunciado, alternativas, índice de clave, explicación y
+fuente o visualización disponible. Incluyó una segunda revisión independiente.
+Tras corregir los problemas identificados, no se detectaron otras claves
+erróneas ni alternativas múltiples válidas en esa revisión.
+
+INVENTARIO COMPROBADO CON NODE
+9 unidades, 27 pruebas cortas y 270 preguntas después de aplicar
+questions-plus.js. El ensayo dispone de 104 preguntas: 56 de Historia,
+30 de Formación ciudadana y 18 de Sistema económico.
+Los 374 registros cargados tienen cuatro alternativas distintas, un índice
+de respuesta válido y explicación. Esta comprobación es estructural:
+no demuestra que la clave sea correcta ni que haya una sola respuesta válida.
+
+REFERENCIAS OFICIALES
+[1] Temario PAES Regular Historia, Admisión 2027:
+https://acceso.mineduc.cl/wp-content/uploads/2026/03/Temario-PAESRegular-2026-Historia-v2.pdf
+[2] Prueba Invierno Admisión 2026, forma 121:
+https://demre.cl/publicaciones/pdf/2026-25-06-18-paes-invierno-oficial-historia-p2026.pdf
+[3] Clavijero Invierno Admisión 2026, forma 121:
+https://demre.cl/publicaciones/pdf/2026-25-07-18-clavijero-paes-invierno-historia.pdf
+[4] Selección Regular Admisión 2026, forma 123:
+https://demre.cl/publicaciones/pdf/2026-25-12-03-paes-regular-historia-p2026.pdf
+[5] Clavijero Regular Admisión 2026, forma 123:
+https://demre.cl/publicaciones/pdf/2026-26-01-05-clavijero-paes-regular-historia.pdf
+[6] Biblioteca del Congreso: ley de sufragio municipal de 1934 y primera
+participación femenina en elecciones municipales el 7 de abril de 1935:
+https://www.bcn.cl/historiapolitica/elecciones/detalle_eleccion?handle=10221.1%2F62984
+[7] SERNAC: comparación de CAE en iguales condiciones:
+https://www.sernac.gob.cl/portal/604/w3-propertyvalue-64453.html
+
+COINCIDENCIA CURRICULAR POR UNIDAD
+liberalismo: ideas liberales y republicanas y Estado-nación; [1], página 6.
+chile19: organización republicana, economía exportadora y cambios sociales;
+  [1], página 6.
+crisisxx: crisis liberal, totalitarismos, populismos y Estado de bienestar;
+  [1], página 6.
+guerr_fria: posguerra, ONU, derechos humanos, descolonización, confrontación
+  ideológica, América Latina y fin del bloque soviético; [1], página 7.
+chilexx: sociedad de mediados del XX, democratización, dictadura y transición;
+  [1], página 7.
+democracia: fundamentos democráticos e institucionalidad chilena;
+  [1], página 8.
+ciudadania: medios, tecnologías, acceso a justicia y sistema judicial;
+  [1], página 8.
+mercado: funcionamiento del mercado, Estado y modelos de desarrollo;
+  [1], página 9.
+trabajo: derechos laborales, instituciones, organizaciones y cambios del
+  trabajo; [1], página 9.
+Esta correspondencia de unidades no implica cobertura exhaustiva ni
+respaldo individual de todos sus detalles históricos, jurídicos o económicos.
+
+CONTRASTES TEMÁTICOS CON PREGUNTAS Y CLAVES ANTERIORES
+Regular 2026, 16, clave A: límites liberales al poder; pertinente para
+  liberalismo. Regular 2026, 20, clave A: construcción de identidad nacional.
+Regular 2026, 13, clave B: filtros digitales y polarización; pertinente
+  para ciudadania.
+Regular 2026, 47, clave C: urbanización y déficit habitacional; pertinente
+  para chilexx. Regular 2026, 48, clave D: fiscalización laboral.
+Regular 2026, 52, clave C: polarización y quiebre democrático de 1973.
+Regular 2026, 64, clave B: representación sindical en negociación colectiva;
+  pertinente para trabajo.
+Invierno 2026, 1, clave B: sujeción de autoridades a la Constitución;
+  pertinente para democracia.
+Invierno 2026, 16, clave C: límites del sufragio decimonónico;
+  pertinente para liberalismo.
+Invierno 2026, 53, clave A: papel del mercado en reformas de dictadura;
+  pertinente para chilexx.
+Invierno 2026, 56, clave D: protestas y rearticulación opositora.
+Invierno 2026, 59, clave D: concentración y competencia; 64, clave A:
+  regulación estatal; 65, clave D: sostenibilidad de recursos.
+Estos ejemplos respaldan contenidos y habilidades, no equivalencias entre
+números de preguntas del sitio y claves oficiales.
+
+HALLAZGOS DE LA VERSIÓN INICIAL (CORRECCIONES APLICADAS AL FINAL)
+1. clasico/app.js, ítem base 18 (posición 18, antes de los adicionales).
+   «¿Cuál de los siguientes eventos antecedió al colapso de la Unión
+   Soviética en 1991?» ofrece ONU, Primera Guerra Mundial, caída del Muro
+   e independencia estadounidense. Las cuatro respuestas anteceden a 1991.
+   Propuesta: preguntar cuál ocurrió más cerca de 1991 entre esos hechos,
+   o sustituir los distractores por acontecimientos posteriores.
+
+2. questions.js, mercado, prueba 3, pregunta 4.
+   Aumento simultáneo de demanda y costos: se dice que el efecto sobre
+   el precio depende de las magnitudes. En el modelo competitivo habitual,
+   demanda a la derecha y oferta a la izquierda presionan ambas el precio
+   al alza; la cantidad de equilibrio sí depende de las magnitudes.
+   Propuesta: preguntar por la cantidad transada y explicitar ese modelo.
+
+3. clasico/banco-paes.js, ítem sobre ley electoral de 1949.
+   La cronología dice «1934 · mujeres votan en elecciones municipales».
+   [6] distingue ley de 1934 y primera votación en 1935.
+   Propuesta: separar ambos hitos y precisar la explicación.
+
+4. clasico/banco-paes.js, ítem sobre CAE.
+   Pregunta por comparar costo total de créditos con plazos distintos
+   y marca CAE. [7] exige igual monto, plazo y características para
+   comparación directa. CAE es un porcentaje anual y CTC el total pagado.
+   Propuesta: igualar condiciones y preguntar por costo anual equivalente,
+   o preguntar por CTC si se quiere el monto total desembolsado.
+
+5. app.js, index.html, clasico/app.js, clasico/index.html y README.md.
+   Los valores 56/31/13 y 36/20/9 se presentan como distribución PAES 2027.
+   [1] no fija porcentajes ni número de preguntas por eje. Deben identificarse
+   como distribución didáctica propia, sin atribución al DEMRE.
+   En particular, el folleto [2] distribuye 15 preguntas de ciudadanía,
+   41 de historia y 9 de economía; una forma anterior tampoco garantiza
+   la distribución futura. Los pesos no son ponderaciones oficiales del
+   puntaje: las preguntas que cuentan tienen igual peso, según [3] y [5].
+
+6. Contenidos complementarios y nivel de exigencia.
+   Guerras mundiales, imperialismo, crédito y otras materias específicas
+   pueden servir de contexto, pero no todos esos detalles están enumerados
+   como conocimientos autónomos en [1]. No se debe anunciar que todo el
+   contenido es obligatorio ni que las nueve unidades reproducen la
+   organización oficial. Muchos distractores del sitio son anacrónicos
+   o absolutos y facilitan la respuesta; coincidencia curricular no
+   equivale a dificultad ni validación psicométrica de una PAES real.
+
+7. Puntaje estimado.
+   paes-score.js identifica una tabla de Admisión 2025 y transforma el
+   porcentaje de aciertos del banco original a 60 preguntas, interpolando.
+   [3] y [5] confirman que las tablas dependen de la aplicación y que se
+   excluyen cinco ítems concretos. El procedimiento local es una estimación
+   pedagógica, no el método de cálculo de una PAES rendida. La transcripción
+   completa de la tabla 2025 se verificó posteriormente: ver cierre.
+
+PAUSA IMPLEMENTADA
+Las 27 pruebas de 10 preguntas comparten el mismo mecanismo de pausa.
+El simulador también la ofrece en ensayo completo, práctica rápida y por eje.
+Pausar congela tiempo, oculta preguntas y controles de
+respuesta y conserva respuestas, marcas y posición; Reanudar restablece
+el reloj. Recargar una sesión pausada conserva ese estado. Se aplica también
+a las prácticas sin límite de tiempo, sin añadirles límite.
+Verificado en Chrome: pausa prolongada, recarga, reanudación sin descuento del descanso,
+conservación de respuestas y marcas, bloqueo de teclado y finalización,
+expiración antes de pausar, tiempo usado sin contar pausas y restauración
+de sesiones con la estructura existente. La pausa se conserva hasta pulsar
+Reanudar; no se reanuda automáticamente al abrir una sesión guardada.
+La pausa es una ayuda de estudio del sitio, no una regla de la PAES oficial.
+
+CIERRE DE CORRECCIONES
+- Ítem base 18 del ensayo: se pregunta por el hecho anterior más cercano
+  a 1991, con una sola alternativa válida.
+- Mercado 3/4: se pregunta por la cantidad de equilibrio; se explica que
+  ambos desplazamientos presionan el precio al alza.
+- Chile XX 3/8: se aporta evidencia explícita de migración en el enunciado,
+  para no inferir migración únicamente a partir del crecimiento urbano.
+- Guerra Fría 3/8: se sustituye un distractor sobre redes de comunicación
+  por una inferencia comercial respaldada; antes había dos inferencias
+  indebidas ante el único indicador de comercio mundial.
+- Liberalismo 1/1: la cronología incluye 1789; el enunciado ahora abarca
+  fines del siglo XVIII y el siglo XIX.
+- Chile XX 2/9: se explicita la incorporación al sufragio de grupos antes
+  excluidos, para no confundir ampliación de derechos con demografía.
+- Se distinguen ley municipal de 1934, primera votación de 1935, ampliación
+  del derecho en 1949 y primera elección presidencial de mujeres en 1952.
+- CAE: se comparan créditos de igual monto, plazo y características, y se
+  distingue porcentaje anual (CAE) de total pagado en dinero (CTC).
+- Los porcentajes 56/31/13 se identifican como distribución didáctica propia
+  en portadas, tarjetas, lecciones, ensayo y documentación. Se eliminaron
+  las afirmaciones de proporción real u oficial del DEMRE.
+- Sufragio de extranjeros: se actualiza a más de diez años ininterrumpidos
+  desde 2026 (Ley 21.773), sujeto a los demás requisitos constitucionales.
+- Se precisan las excepciones del voto obligatorio (primarias y exterior).
+- Protección de datos: se explicita la entrada en vigencia general de la
+  Ley 21.719 el 1 de diciembre de 2026.
+- Ensayo 100: la explicación del consentimiento reconoce que también hay
+  autorizaciones legales para el tratamiento de datos (Ley 19.628, art. 4).
+- Ensayo 93: el caso de amparo especifica detención ilegal, sin orden ni
+  flagrancia; no toda detención sin orden es ilegal.
+- Cronología de Vietnam: caída de Saigón en 1975 y reunificación formal
+  en 1976. La membresía soviética del Consejo de Seguridad se sitúa en su
+  época y se explica su continuidad por Rusia en 1991.
+- Se evita atribuir el origen de todas las revoluciones de 1848 a París.
+- Política fiscal: se distingue crear tributos mediante leyes tributarias
+  de estimar ingresos y autorizar gastos en la Ley de Presupuestos.
+- La tabla histórica de puntaje se contrastó fila por fila (61 valores)
+  con la página 5 del clavijero Regular Admisión 2025. Coincide. Se mantiene
+  identificada como histórica; la interpolación local sigue siendo solo
+  una estimación pedagógica de un banco sin calibración psicométrica.
+
+FUENTES ADICIONALES DE LAS CORRECCIONES Y COMPROBACIONES
+Tabla histórica de puntaje:
+https://demre.cl/publicaciones/pdf/2025-25-01-06-clavijero-paes-regular-historia.pdf
+Sufragio de extranjeros, Ley 21.773 y aplicación Servel:
+https://www.bcn.cl/leychile/Navegar/imprimir?idNorma=1217272&idParte=10564746&idVersion=2026-01-01
+https://www.servel.cl/informacion/electorado-tramites/incorporacion-al-registro-electoral/
+Primarias voluntarias:
+https://www.servel.cl/elecciones2025-quesevota-2/
+Protección de datos y vigencia:
+https://www.bcn.cl/leychile/navegar?i=1209272
+Protección de datos, bases de tratamiento vigentes al consultar:
+https://www.leychile.cl/navegar?idNorma=141599
+Jornada laboral de 42 horas desde abril de 2026 y 40 desde abril de 2028:
+https://www.dt.gob.cl/portal/1626/w3-propertyname-2556.html
+Plazos de escrituración del contrato:
+https://dt.gob.cl/portal/1628/w3-article-60785.html
+Meta de inflación del Banco Central:
+https://www.bcentral.cl/web/banco-central/areas/politica-monetaria/informe-de-politica-monetaria
+Consejo de Seguridad y continuidad de membresía de la URSS:
+https://www.un.org/en/about-us/member-states/russian-federation
+Vietnam: Ministerio de Relaciones Exteriores de Japón, balance de 1976:
+https://www.mofa.go.jp/policy/other/bluebook/1976/1976-1.htm
+Presupuesto e ingresos: Constitución, artículo 67 (BCN):
+https://www.bcn.cl/leychile/navegar?idNorma=242302
+
+MATRIZ CURRICULAR
+docs/matriz-curricular.csv contiene los 374 enunciados activos, alternativa
+correcta antes de barajar, explicación y vínculo de la unidad con el temario.
+La vinculación por unidad no sustituye una validación oficial de cada ítem.
+Se regenera con: node scripts/export-audit.cjs
+
+COMPROBACIONES REPRODUCIBLES
+node --test tests/content-audit.cjs
+node --test tests/browser-pause.cjs
+Las pruebas del navegador usan un perfil temporal y almacenamiento local
+aislado, sin modificar los datos de estudio del navegador habitual.
+Se comprueba la vista pausada en anchos de 390 y 1366 px.

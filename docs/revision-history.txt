@@ -1,0 +1,132 @@
+REVISIÓN EDITORIAL DE HISTORIA · 21 DE OCTUBRE DE 2026
+
+Alcance y resultado
+206 preguntas revisadas: 150 breves y 56 del simulador clásico con eje H.
+Las breves cubren liberalismo, chile19, crisisxx, guerr_fria y chilexx:
+30 por unidad, distribuidas en tres pruebas de diez preguntas.
+Clásicas: IDs 1–35 y 66–86, conservando la numeración global original.
+Cada entrada de review-history.js contiene cuatro alternativas explícitas;
+la correcta está en la posición cero del archivo de revisión. El motor
+responsable de su integración determina la presentación al estudiante.
+No se modificaron los bancos base ni se generaron preguntas mediante
+plantillas automáticas. Se conservaron fuentes y visualizaciones salvo
+las precisiones identificadas abajo.
+
+Hallazgos principales
+El problema dominante era la baja plausibilidad de los distractores:
+tecnologías del siglo XXI en preguntas del XIX, episodios separados por
+siglos y afirmaciones evidentemente absurdas permitían responder por
+descarte sin comprender Historia. Se reemplazaron por conceptos próximos,
+políticas del período o errores interpretativos reconocibles: confundir
+igualdad jurídica y sufragio universal, crecimiento y distribución,
+independencia y autonomía económica, cronología y explicación causal,
+propaganda y adhesión comprobada, protección social y régimen político.
+Se acortaron alternativas correctas especialmente extensas y se procuró
+mantener paralelismo conceptual y longitud comparable entre opciones.
+
+Conceptos conserva una menor exigencia relativa: reconocer instituciones,
+procesos y relaciones básicas. Análisis de fuentes exige discriminar lo
+que cada documento permite establecer. Desafío exige distinguir escalas,
+multicausalidad, representatividad y límites de inferencia. Esta gradación
+es editorial; no constituye dificultad psicométrica calibrada.
+
+Precisiones de contenido e inferencia
+• liberalismo/1/6: se distingue el republicanismo frente al principio
+  hereditario. La limitación constitucional del poder también puede
+  coexistir con una monarquía; no bastaba para identificar una república.
+• liberalismo/2/4: se sitúan las unificaciones europeas en la segunda
+  mitad del XIX y se restringen las conclusiones a lo que aporta la
+  cronología, sin inferir causas o instituciones idénticas.
+• crisisxx/1/5 y /2/4: la descripción de populismo incorpora apelación
+  al pueblo, liderazgo y articulación sindical, evitando equipararlo
+  simplemente a cualquier participación popular.
+• crisisxx/2/2: un afiche que deslegitima toda crítica permite identificar
+  culto y tendencias autoritarias; no demuestra por sí solo la existencia
+  de persecución policial efectiva.
+• crisisxx/2/7: la cronología ordena hechos de la primera mitad del XX;
+  no se presenta la Primera Guerra como parte del período de entreguerras
+  ni se confunde sucesión con causalidad.
+• crisisxx/3/3: se distingue la intención persuasiva de la propaganda de
+  su recepción efectiva, que requiere otras fuentes.
+• chilexx/1/1: la visualización identifica 1990 como asunción de un gobierno
+  democrático, evitando presentar ese año como único inicio de un proceso
+  de transición que incluye el plebiscito de 1988.
+• chilexx/3/3: se explicita una situación hipotética con serie comparable
+  de PIB real. No se pretende mostrar una gráfica histórica inexistente
+  ni se atribuyen cifras simuladas a una fuente real.
+• Clásica 20: las proporciones urbanas/rurales no prueban variaciones
+  absolutas ni permiten atribuir el cambio exclusivamente a migración.
+• Clásica 30: se conserva el testimonio ambientado en la década de 1950
+  y se corrige su unidad de chile19 a chilexx.
+• Clásica 32: la cronología se vincula al período de entreguerras,
+  evitando que la única tarea sea reconocer la mitad de un siglo.
+• Clásica 66: se identifica expresamente la crisis de 1929; la referencia
+  anterior a una crisis mundial sin fecha era demasiado genérica.
+• Clásica 69: la explicación no atribuye a una única conferencia el
+  trazado completo de todas las fronteras africanas.
+• Clásica 71: se diferencia el control de Antofagasta tras la guerra de
+  la formalización de su cesión por Bolivia en 1904. Se aclara además
+  que el impuesto salitrero no implicó propiedad estatal de toda la industria.
+• Clásica 72: se distingue la ocupación militar de 1861–1883 de la
+  radicación posterior mediante títulos de merced, principalmente 1884–1929.
+• Clásica 77: se añade contexto geopolítico suficiente para relacionar
+  la Alianza para el Progreso con contención revolucionaria. La ayuda
+  social descrita originalmente, aislada, no demostraba esa finalidad.
+• Clásica 79: se diferencia chilenización mediante sociedades mixtas de
+  nacionalización de la gran minería en 1971.
+• Clásica 80: se precisan los ámbitos de Rettig y Valech y la diferencia
+  entre comisiones de reconocimiento/documentación y tribunales penales.
+• Clásica 83: se integra como transición democrática en chilexx y se
+  distingue la reforma de 2005 del efecto de la eliminación de senadores
+  designados y vitalicios desde marzo de 2006.
+
+Correspondencia curricular
+La revisión mantiene los grandes procesos del eje Historia del temario
+Regular Admisión 2027: construcción estatal y liberalismo del XIX;
+República e inserción exportadora chilena; transformaciones sociales;
+crisis del liberalismo y respuestas políticas del XX; orden posterior a
+1945, derechos humanos y rivalidad bipolar; democratización, golpe,
+dictadura y transición chilena. Las cronologías de guerras sirven como
+contextualización y ejercicio temporal, sin tratar la historia militar
+como una unidad obligatoria autónoma. No se agregaron nuevos contenidos
+ni se afirma que cada detalle del banco sea un contenido exigible aislado.
+
+Referencias consultadas o contrastadas
+1. DEMRE/Mineduc, Temario PAES Regular 2026, Admisión 2027.
+   https://acceso.mineduc.cl/wp-content/uploads/2026/03/Temario-PAESRegular-2026-Historia-v2.pdf
+   https://demre.cl/publicaciones/2027/2027-26-03-19-temario-paes-regular-historia
+   Los accesos web de este revisor al PDF tuvieron timeout; la página
+   oficial fue accesible y la cobertura de sus páginas 6–7 fue contrastada
+   con la lectura del documento realizada por el agente coordinador.
+2. DEMRE, PAES de Invierno rendidas y clavijeros, Admisión 2027.
+   https://demre.cl/publicaciones/2027/pruebas-oficiales-paes-invierno-p2027
+3. DEMRE, Selección de preguntas PAES Regular, Admisión 2026.
+   https://demre.cl/publicaciones/2026/pruebas-oficiales-paes-regular-p2026
+   Se comprobaron las publicaciones oficiales como referencias del marco
+   de evaluación; no se copiaron ni adaptaron preguntas oficiales.
+4. Memoria Chilena, Alianza para el Progreso.
+   https://www.memoriachilena.gob.cl/602/w3-article-94594.html
+5. MOP, Guía territorial y cultural: radicación con títulos de merced.
+   https://asuntosindigenas.mop.gob.cl/archivos/sites/8/2023/10/GuiaTerritorialCultural.pdf
+6. BCN, Historia de la Ley 20.050: reforma constitucional de 2005.
+   https://www.bcn.cl/historiadelaley/nc/historia-de-la-ley/6131/mi-seleccion/
+7. Memoria Chilena, documentación histórica sobre ingresos salitreros.
+   https://www.memoriachilena.gob.cl/archivos2/pdfs/MC0014665.pdf
+   Se contrastó la magnitud aproximada de la contribución fiscal del
+   salitre; se mantiene el carácter aproximado y didáctico del dato.
+
+Verificación y límites
+La revisión independiente final precisó cuatro entradas adicionales:
+liberalismo/3/7 pregunta por los ideales compartidos; guerr_fria/3/4
+contrasta una explicación reduccionista con actores y conflictos locales;
+guerr_fria/3/8 especifica volumen real del comercio para excluir una
+segunda inferencia indebida; guerr_fria/1/3 distingue ausencia de guerra
+general directa de la inexistencia de cualquier combate limitado.
+
+El archivo se ejecutó en un contexto vm de Node: sintaxis válida, 150
+IDs breves, 56 IDs clásicos, cuatro alternativas distintas por entrada.
+Se contrastaron los IDs con los bancos activos y se conservaron los
+totales. Las fuentes ficticias siguen identificadas como didácticas.
+La revisión es editorial y conceptual; no equivale a pilotaje estadístico,
+validación psicométrica, calibración PAES ni aval del DEMRE. Las preguntas
+son originales del sitio y no deben presentarse como oficiales.
