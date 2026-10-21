@@ -93,6 +93,7 @@
     if(!Array.isArray(p.passed)) p.passed = [];
     if(!p.games || typeof p.games !== 'object') p.games = {map:false,order:false,match:false,sourcegame:false};
     p.completed = p.completed === true;
+    delete p.microOrders; delete p.activities; // órdenes fijos de versiones anteriores
     return p;
   }
   function testInfo(tid,index) { return progress.results[tid+':'+index] || null; }
@@ -220,20 +221,28 @@
     }).join('');
     $('topicAside').innerHTML=`<div class="aside-header">Lo que aprenderás</div><ul>${t.concepts.map(c=>`<li>${safe(c[0])}</li>`).join('')}</ul><div class="aside-sep"></div><div class="aside-header">Tu meta</div><div class="quote">${safe(t.hook)}</div><div class="aside-sep"></div><div class="aside-header">Tu progreso</div><ul><li>${state.completed?'Presentación completada':'Presentación por completar'}</li>${[0,1,2].map(i=>`<li>${testInfo(tid,i)?`Prueba ${i+1} rendida · ${testInfo(tid,i).best}% mejor`:`Prueba ${i+1} pendiente`}</li>`).join('')}</ul>`;
   }
-  const newSlideUI = () => ({tab:0,timeline:0,flips:[],compare:0,process:0,hints:[],revealSource:false,chosen:null,wrong:false,mapVisits:[],orderSelected:[],orderError:'',matched:[],matchTerm:null,matchError:'',sourceAnswer:null});
-  function hash(s){let h=2166136261>>>0;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0;}
+  const newSlideUI = () => ({tab:0,timeline:0,flips:[],compare:0,process:0,hints:[],revealSource:false,wrong:false,mapVisits:[],orderError:'',matchError:'',activity:null});
   function randomInt(max) {
     if(window.crypto && window.crypto.getRandomValues) {const buf=new Uint32Array(1);window.crypto.getRandomValues(buf);return buf[0]%max;}
     return Math.floor(Math.random()*max);
   }
-  function shuffle(a) {for(let i=a.length-1;i>0;i--){const j=randomInt(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
-  function orderedMicroOptions(tid,quiz,choices,correctIndex) {
-    const state=lessonState(tid);
-    if(!state.microOrders||typeof state.microOrders!=='object')state.microOrders={};
-    if(!ENGINE.isOrder(state.microOrders[quiz],choices.length)){
-      state.microOrders[quiz]=ENGINE.shuffle(choices.map((_,i)=>i));saveProgress();
+  // Sorteo nuevo cada vez que se entra a la diapositiva: el orden no se guarda, así no se puede memorizar.
+  // El avance depende de lo ya superado (games/passed); repetir la actividad es práctica opcional.
+  function slideActivity(t,entry) {
+    if(!slideUI.activity){
+      const kind=entry.type==='order'?'order':entry.type==='match'?'match':'choice';
+      const count=kind==='order'?t.timeline.length:kind==='match'?t.concepts.length:entry.type==='sourcegame'?INTERACTIVE[t.id].sourceGame.options.length:t.checks[entry.quiz][1].length;
+      slideUI.activity=ENGINE.newLessonActivity(kind,count);
     }
-    return state.microOrders[quiz].map(i=>({index:i,label:choices[i]}));
+    return slideUI.activity;
+  }
+  function activityPassed(tid,entry) {
+    const s=lessonState(tid);
+    return entry.type==='challenge'?s.passed.includes(entry.quiz):s.games[entry.type]===true;
+  }
+  function activityFooter(t,entry,a) {
+    if(a.done)return '<div class="game-retry"><button type="button" class="btn btn-outline" data-retry-activity="1">↻ Practicar de nuevo con otro orden</button></div>';
+    return activityPassed(t.id,entry)?'<p class="game-feedback practice">Ya superaste este reto. El orden cambió: practícalo de nuevo o continúa cuando quieras.</p>':'';
   }
   function burst() {
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -243,9 +252,8 @@
     document.body.appendChild(shell);setTimeout(()=>shell.remove(),1500);
   }
   function completeGame(key) {
-    const state=lessonState(activeTopic);
-    if(state.games[key])return;
-    state.games[key]=true;saveProgress();burst();notify('Misión superada. Ya puedes continuar.');
+    const state=lessonState(activeTopic),first=!state.games[key];
+    state.games[key]=true;saveProgress();burst();notify(first?'Misión superada. Ya puedes continuar.':'¡Bien! Lo resolviste otra vez.');
   }
   function openLesson(tid) {
     const t=topic(tid); if(!t) return;
@@ -320,32 +328,28 @@
       <div class="map-places" aria-label="Lugares para explorar">${m.points.map((p,i)=>`<button type="button" data-map="${i}" class="map-place ${visited.includes(i)?'done':''} ${current===i?'active':''}">${visited.includes(i)?'✓':'○'} ${safe(p[0])}</button>`).join('')}</div><p class="map-caption">${safe(m.caption)}</p>
       ${all?'<div class="mission-success">✓ Mapa explorado: ya puedes avanzar</div>':''}</div>`;
   }
-  function orderMarkup(t) {
-    const done=lessonState(t.id).games.order;
-    const picks=slideUI.orderSelected;
-    const scramble=[2,0,3,1].map(i=>t.timeline[i]);
+  function orderMarkup(t,entry) {
+    const a=slideActivity(t,entry),done=a.done,picks=a.picks,n=t.timeline.length;
     return `<div class="slide slide-padding">${slideHead('Minijuego · cronología','Reconstruye la secuencia.','Toca los hitos en orden, del más antiguo al más reciente. Las fechas se revelan cuando ubicas cada hito.')}
-      <div class="game-banner"><span>RETO 01 / 03</span><strong>${done?'COMPLETADO':`PASO ${Math.min(4,picks.length+1)} DE 4`}</strong></div>
-      <div class="order-track">${Array.from({length:4},(_,i)=>`<div class="order-slot ${i<picks.length||done?'filled':''}"><small>0${i+1}${done||i<picks.length?` · ${safe(t.timeline[i][0])}`:''}</small><span>${done||i<picks.length?safe(t.timeline[i][1]):'Selecciona un hito'}</span></div>`).join('')}</div>
-      <div class="order-options">${scramble.map((h,i)=>{const original=t.timeline.indexOf(h);const selected=picks.includes(original)||done;return `<button type="button" data-order="${original}" ${selected?'disabled':''} class="order-tile ${selected?'picked':''}"><small class="${selected?'':'order-year-hidden'}">${selected?safe(h[0]):'¿Cuándo ocurrió?'}</small><strong>${safe(h[1])}</strong><span>${selected?'✓ Añadido':'Tocar para ordenar ↗'}</span></button>`}).join('')}</div>
-      ${slideUI.orderError?`<p class="game-feedback bad">${safe(slideUI.orderError)}</p>`:''}${done?'<p class="game-feedback good">✓ Excelente: la secuencia histórica está completa.</p>':''}
+      <div class="game-banner"><span>RETO 01 / 03</span><strong>${done?'COMPLETADO':`PASO ${Math.min(n,picks.length+1)} DE ${n}`}</strong></div>
+      <div class="order-track">${t.timeline.map((h,i)=>`<div class="order-slot ${i<picks.length?'filled':''}"><small>0${i+1}${i<picks.length?` · ${safe(h[0])}`:''}</small><span>${i<picks.length?safe(h[1]):'Selecciona un hito'}</span></div>`).join('')}</div>
+      <div class="order-options">${a.order.map(original=>{const h=t.timeline[original],selected=picks.includes(original);return `<button type="button" data-order="${original}" ${selected?'disabled':''} class="order-tile ${selected?'picked':''}"><small class="${selected?'':'order-year-hidden'}">${selected?safe(h[0]):'¿Cuándo ocurrió?'}</small><strong>${safe(h[1])}</strong><span>${selected?'✓ Añadido':'Tocar para ordenar ↗'}</span></button>`}).join('')}</div>
+      ${slideUI.orderError?`<p class="game-feedback bad">${safe(slideUI.orderError)}</p>`:''}${done?'<p class="game-feedback good">✓ Excelente: la secuencia histórica está completa.</p>':''}${activityFooter(t,entry,a)}
       <p class="slide-end-note">Tip PAES: distinguir secuencia, continuidad y ruptura ayuda a interpretar procesos.</p></div>`;
   }
-  function matchMarkup(t) {
-    const done=lessonState(t.id).games.match;const matched=done?[0,1,2,3]:slideUI.matched;
-    const cols=[2,0,3,1];
+  function matchMarkup(t,entry) {
+    const a=slideActivity(t,entry),done=a.done,matched=a.matched,n=t.concepts.length;
     return `<div class="slide slide-padding">${slideHead('Minijuego · conexiones','Une los conceptos con su significado.','Primero toca un concepto y después la definición que le corresponde.')}
-      <div class="game-banner"><span>RETO 02 / 03</span><strong>${matched.length} / 4 PAREJAS</strong></div>
-      <div class="match-board"><div class="match-col"><strong class="match-col-heading">CONCEPTO</strong>${t.concepts.map((c,i)=>`<button type="button" data-match-term="${i}" class="match-card ${matched.includes(i)?'matched':''} ${slideUI.matchTerm===i?'selected':''}" ${matched.includes(i)?'disabled':''}><span>${matched.includes(i)?'✓':'0'+(i+1)}</span><strong>${safe(c[0])}</strong></button>`).join('')}</div><div class="match-col"><strong class="match-col-heading">DEFINICIÓN</strong>${cols.map((i,j)=>`<button type="button" data-match-def="${i}" class="match-card match-definition ${matched.includes(i)?'matched':''}" ${matched.includes(i)?'disabled':''}><span>${matched.includes(i)?'✓':'↗'}</span><small>${safe(t.concepts[i][1])}</small></button>`).join('')}</div></div>
-      ${slideUI.matchError?`<div class="game-feedback bad">${safe(slideUI.matchError)}</div>`:''}${done?'<div class="game-feedback good">✓ ¡Conexiones correctas! Ya distingues estos cuatro conceptos.</div>':''}
+      <div class="game-banner"><span>RETO 02 / 03</span><strong>${matched.length} / ${n} PAREJAS</strong></div>
+      <div class="match-board"><div class="match-col"><strong class="match-col-heading">CONCEPTO</strong>${a.terms.map((i,j)=>`<button type="button" data-match-term="${i}" class="match-card ${matched.includes(i)?'matched':''} ${a.selected===i?'selected':''}" ${matched.includes(i)?'disabled':''}><span>${matched.includes(i)?'✓':'0'+(j+1)}</span><strong>${safe(t.concepts[i][0])}</strong></button>`).join('')}</div><div class="match-col"><strong class="match-col-heading">DEFINICIÓN</strong>${a.definitions.map(i=>`<button type="button" data-match-def="${i}" class="match-card match-definition ${matched.includes(i)?'matched':''}" ${matched.includes(i)?'disabled':''}><span>${matched.includes(i)?'✓':'↗'}</span><small>${safe(t.concepts[i][1])}</small></button>`).join('')}</div></div>
+      ${slideUI.matchError?`<div class="game-feedback bad">${safe(slideUI.matchError)}</div>`:''}${done?'<div class="game-feedback good">✓ ¡Conexiones correctas! Ya distingues estos cuatro conceptos.</div>':''}${activityFooter(t,entry,a)}
       <p class="slide-end-note">No basta con memorizar términos: identifica qué evidencia demuestra cada idea.</p></div>`;
   }
-  function sourceGameMarkup(t) {
-    const g=INTERACTIVE[t.id].sourceGame;const done=lessonState(t.id).games.sourcegame;
-    const opts=orderedMicroOptions(t.id,'source',g.options,g.answer);
+  function sourceGameMarkup(t,entry) {
+    const g=INTERACTIVE[t.id].sourceGame,a=slideActivity(t,entry),done=a.done;
     return `<div class="slide slide-padding">${slideHead('Minijuego · evidencia','Decide como historiador.','Usa la fuente anterior y selecciona la interpretación mejor fundamentada.')}
       <div class="game-banner"><span>RETO 03 / 03</span><strong>${done?'RESUELTO':'PENSAMIENTO CRÍTICO'}</strong></div>
-      <div class="source-mission"><span class="source-mission-icon">◎</span><h3>${safe(g.prompt)}</h3><div class="check-options">${opts.map((o,i)=>`<button type="button" data-source-choice="${o.index}" class="check-option ${done&&o.index===g.answer?'correct':slideUI.sourceAnswer===o.index&&!done?'wrong':''}" ${done?'disabled':''}><span>${'ABC'[i]}</span>${safe(o.label)}</button>`).join('')}</div>${done?`<p class="game-feedback good">✓ ${safe(g.explain)}</p>`:slideUI.sourceAnswer!==null?'<p class="game-feedback bad">No es la inferencia más sólida. Pregúntate qué información respalda cada afirmación y vuelve a elegir.</p>':''}</div></div>`;
+      <div class="source-mission"><span class="source-mission-icon">◎</span><h3>${safe(g.prompt)}</h3><div class="check-options">${a.order.map((i,j)=>`<button type="button" data-source-choice="${i}" class="check-option ${done&&i===g.answer?'correct':a.chosen===i&&!done?'wrong':''}" ${done?'disabled':''}><span>${'ABC'[j]}</span>${safe(g.options[i])}</button>`).join('')}</div>${done?`<p class="game-feedback good">✓ ${safe(g.explain)}</p>`:a.chosen!==null?'<p class="game-feedback bad">No es la inferencia más sólida. Pregúntate qué información respalda cada afirmación y vuelve a elegir.</p>':''}${activityFooter(t,entry,a)}</div></div>`;
   }
   function renderViz(v) {
     if(!v)return '';
@@ -367,14 +371,14 @@
     if(type==='timeline') return `<div class="slide slide-padding">${slideHead('04 · Explora los hechos','Así evoluciona el proceso.','Selecciona cada hito o reproduce la cronología completa.')}<div class="tl-player"><button type="button" class="tl-play ${autoTimer?'playing':''}" data-tlplay="1" aria-pressed="${!!autoTimer}">${autoTimer?'❚❚ Pausar':'▶ Reproducir cronología'}</button><div class="tl-rail" aria-hidden="true"><i style="width:${(slideUI.timeline+.5)/t.timeline.length*100}%"></i>${t.timeline.map((x,i)=>`<b class="${i<=slideUI.timeline?'on':''} ${i===slideUI.timeline?'current':''}" style="left:${(i+.5)/t.timeline.length*100}%"></b>`).join('')}</div></div><div class="timeline-wrap"><div class="timeline-menu">${t.timeline.map((x,i)=>`<button type="button" data-timeline="${i}" class="timeline-point ${slideUI.timeline===i?'active':''}" aria-pressed="${slideUI.timeline===i}"><span>${safe(x[0])}</span>${safe(x[1])}</button>`).join('')}</div><div class="timeline-detail">${timelineDetail(t,slideUI.timeline)}</div></div></div>`;
     if(type==='flash') return `<div class="slide slide-padding">${slideHead('06 · Activa tu memoria','Cuatro conceptos que debes manejar.','Toca las tarjetas para descubrir la definición y un ejemplo.')}<div class="flash-grid">${t.concepts.map((c,i)=>{const yes=slideUI.flips.includes(i);return `<button type="button" data-flip="${i}" class="flashcard flip3d ${yes?'revealed':''}" aria-pressed="${yes}" aria-label="${safe(c[0])}: ${yes?'mostrar concepto':'mostrar definición'}"><span class="flip-inner"><span class="flip-face flip-front" ${yes?'aria-hidden="true"':''}><span class="flash-label">CONCEPTO ${String(i+1).padStart(2,'0')} · TOCA PARA GIRAR</span><strong>${safe(c[0])}</strong><span class="flash-chevron" aria-hidden="true">↻</span></span><span class="flip-face flip-back" ${yes?'':'aria-hidden="true"'}><span class="flash-label">${safe(c[0])}</span><p>${safe(c[1])}</p><span class="flash-example">Ejemplo: ${safe(c[2])}</span></span></span></button>`}).join('')}</div><div class="flash-count" aria-live="polite">${slideUI.flips.length} / ${t.concepts.length} tarjetas giradas</div><p class="slide-end-note">Prueba recordarlo antes de tocar cada tarjeta.</p></div>`;
     if(type==='map') return mapMarkup(t);
-    if(type==='order') return orderMarkup(t);
-    if(type==='match') return matchMarkup(t);
-    if(type==='sourcegame') return sourceGameMarkup(t);
+    if(type==='order') return orderMarkup(t,entry);
+    if(type==='match') return matchMarkup(t,entry);
+    if(type==='sourcegame') return sourceGameMarkup(t,entry);
     if(type==='challenge') {
-      const i=entry.quiz,ch=t.checks[i],done=lessonState(t.id).passed.includes(i);
-      const opts=orderedMicroOptions(t.id,i,ch[1],ch[2]);
+      const i=entry.quiz,ch=t.checks[i],a=slideActivity(t,entry),done=a.done;
+      const opts=a.order.map(index=>({index,label:ch[1][index]}));
       return `<div class="slide slide-padding">${slideHead('Chequeo de comprensión · '+(i+1)+'/3','Piensa antes de responder.','La alternativa correcta cambia de posición. Esta pregunta no aparece en tus pruebas.')}
-      <div class="check-card question-level"><div class="challenge-head"><span>DESAFÍO DE COMPRENSIÓN</span><strong>${String(i+1).padStart(2,'0')} / 03</strong></div><h3>${safe(ch[0])}</h3><div class="check-options">${opts.map((o,j)=>`<button type="button" data-check="${o.index}" class="check-option ${done&&o.index===ch[2]?'correct':(!done&&slideUI.chosen===o.index?'wrong':'')}" ${done?'disabled':''}><span>${'ABC'[j]}</span>${safe(o.label)}</button>`).join('')}</div>${done?`<div class="check-feedback good">✓ ${safe(ch[3])}</div>`:(slideUI.wrong?`<div class="check-feedback">Vuelve a leer el contexto: una alternativa resulta más precisa que las otras. Inténtalo de nuevo.</div>`:'')}</div>
+      <div class="check-card question-level"><div class="challenge-head"><span>DESAFÍO DE COMPRENSIÓN</span><strong>${String(i+1).padStart(2,'0')} / 03</strong></div><h3>${safe(ch[0])}</h3><div class="check-options">${opts.map((o,j)=>`<button type="button" data-check="${o.index}" class="check-option ${done&&o.index===ch[2]?'correct':(!done&&a.chosen===o.index?'wrong':'')}" ${done?'disabled':''}><span>${'ABC'[j]}</span>${safe(o.label)}</button>`).join('')}</div>${done?`<div class="check-feedback good">✓ ${safe(ch[3])}</div>`:(slideUI.wrong?`<div class="check-feedback">Vuelve a leer el contexto: una alternativa resulta más precisa que las otras. Inténtalo de nuevo.</div>`:'')}${activityFooter(t,entry,a)}</div>
       <p class="slide-end-note">Para continuar debes resolver correctamente este chequeo. Las letras no siguen un patrón fijo.</p></div>`;
     }
     if(type==='compare') {
@@ -502,23 +506,25 @@
       if(slideUI.mapVisits.length===INTERACTIVE[t.id].map.points.length)completeGame('map');
     } else if(b.hasAttribute('data-timeline')){stopAuto();slideUI.timeline=Number(b.dataset.timeline);pendingFx.push(['.timeline-detail','fx-swap'],['.timeline-point.active','fx-pop']);}
     else if(b.hasAttribute('data-order')) {
-      if(lessonState(t.id).games.order)return;
-      const n=Number(b.dataset.order),next=slideUI.orderSelected.length;
-      if(n===next){slideUI.orderSelected.push(n);slideUI.orderError='';pendingFx.push([`.order-slot:nth-child(${n+1})`,'fx-pop']);if(slideUI.orderSelected.length===4)completeGame('order');}
-      else{slideUI.orderSelected=[];slideUI.orderError='Todavía no. Reiniciamos la secuencia: vuelve a elegir desde el primer hito.';pendingFx.push(['.order-track','fx-shake']);}
+      const a=slideActivity(t,entry);if(a.done)return;
+      const n=Number(b.dataset.order),next=a.picks.length;
+      if(n===next){a.picks.push(n);slideUI.orderError='';pendingFx.push([`.order-slot:nth-child(${n+1})`,'fx-pop']);if(a.picks.length===t.timeline.length){a.done=true;completeGame('order');}}
+      else{slideUI.activity=null;slideUI.orderError='Todavía no. Reiniciamos la secuencia y mezclamos los hitos: vuelve a elegir desde el más antiguo.';pendingFx.push(['.order-track','fx-shake']);}
     } else if(b.hasAttribute('data-match-term')) {
-      slideUI.matchTerm=Number(b.dataset.matchTerm);slideUI.matchError='';
+      slideActivity(t,entry).selected=Number(b.dataset.matchTerm);slideUI.matchError='';
     } else if(b.hasAttribute('data-match-def')) {
-      if(lessonState(t.id).games.match)return;
+      const a=slideActivity(t,entry);if(a.done)return;
       const n=Number(b.dataset.matchDef);
-      if(slideUI.matchTerm===null)slideUI.matchError='Elige un concepto de la columna izquierda primero.';
-      else if(slideUI.matchTerm===n){if(!slideUI.matched.includes(n))slideUI.matched.push(n);slideUI.matchTerm=null;slideUI.matchError='';pendingFx.push([`[data-match-term="${n}"]`,'fx-pop'],[`[data-match-def="${n}"]`,'fx-pop']);if(slideUI.matched.length===4)completeGame('match');}
-      else{slideUI.matchError='La definición no corresponde a ese concepto. Inténtalo con otra evidencia.';slideUI.matchTerm=null;pendingFx.push([`[data-match-def="${n}"]`,'fx-shake']);}
+      if(a.selected===null)slideUI.matchError='Elige un concepto de la columna izquierda primero.';
+      else if(a.selected===n){if(!a.matched.includes(n))a.matched.push(n);a.selected=null;slideUI.matchError='';pendingFx.push([`[data-match-term="${n}"]`,'fx-pop'],[`[data-match-def="${n}"]`,'fx-pop']);if(a.matched.length===t.concepts.length){a.done=true;completeGame('match');}}
+      else{slideUI.matchError='La definición no corresponde a ese concepto. Inténtalo con otra evidencia.';a.selected=null;pendingFx.push([`[data-match-def="${n}"]`,'fx-shake']);}
     } else if(b.hasAttribute('data-source-choice')) {
-      if(lessonState(t.id).games.sourcegame)return;
-      const n=Number(b.dataset.sourceChoice);slideUI.sourceAnswer=n;
-      if(n===INTERACTIVE[t.id].sourceGame.answer){completeGame('sourcegame');pendingFx.push(['.source-mission','fx-stamp']);}
+      const a=slideActivity(t,entry);if(a.done)return;
+      const n=Number(b.dataset.sourceChoice);a.chosen=n;
+      if(n===INTERACTIVE[t.id].sourceGame.answer){a.done=true;completeGame('sourcegame');pendingFx.push(['.source-mission','fx-stamp']);}
       else pendingFx.push([`[data-source-choice="${n}"]`,'fx-shake']);
+    } else if(b.hasAttribute('data-retry-activity')) {
+      slideUI.activity=null;slideUI.orderError='';slideUI.matchError='';slideUI.wrong=false;pendingFx.push(['.slide','fx-swap']);
     } else if(b.hasAttribute('data-flip')) {const i=Number(b.dataset.flip);slideUI.flips=slideUI.flips.includes(i)?slideUI.flips.filter(n=>n!==i):[...slideUI.flips,i];pendingFx.push([`[data-flip="${i}"]`,'just-flipped']);}
     else if(b.hasAttribute('data-compare')) {slideUI.compare=Number(b.dataset.compare);pendingFx.push(['.compare-card','fx-swap'],['.compare-side','fx-swap']);}
     else if(b.hasAttribute('data-process')) {slideUI.process=Number(b.dataset.process);pendingFx.push(['.process-detail','fx-swap']);}
@@ -527,10 +533,10 @@
     else if(b.hasAttribute('data-reveal')) {slideUI.revealSource=!slideUI.revealSource;pendingFx.push(['.source-takeaway','fx-in']);}
     else if(b.hasAttribute('data-check')) {
       if(entry.type!=='challenge')return;
-      const n=Number(b.dataset.check),i=entry.quiz;
-      if(lessonState(activeTopic).passed.includes(i))return;
-      if(n===t.checks[i][2]) {const s=lessonState(activeTopic);s.passed.push(i);saveProgress();notify('¡Correcto! Entendiste el concepto.');burst();slideUI.wrong=false;pendingFx.push(['.check-card','fx-stamp']);}
-      else{slideUI.chosen=n;slideUI.wrong=true;pendingFx.push(['.check-option.wrong','fx-shake']);}
+      const n=Number(b.dataset.check),i=entry.quiz,a=slideActivity(t,entry);
+      if(a.done)return;
+      if(n===t.checks[i][2]) {const s=lessonState(activeTopic);a.done=true;if(!s.passed.includes(i))s.passed.push(i);saveProgress();notify('¡Correcto! Entendiste el concepto.');burst();slideUI.wrong=false;pendingFx.push(['.check-card','fx-stamp']);}
+      else{a.chosen=n;slideUI.wrong=true;pendingFx.push(['.check-option.wrong','fx-shake']);}
     } else return;
     renderLesson(false);
   }

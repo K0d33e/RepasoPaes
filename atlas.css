@@ -329,6 +329,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 .map-caption{color:var(--muted)}
 .mission-success,.game-feedback.good,.check-feedback.good{background:#e6efdb;color:#2f4f1a;border:1px solid #c3d6a9}
 .game-feedback.bad,.check-feedback{background:#f8e4dd;color:#7d2a1c;border:1px solid #ecc2b5}
+.game-feedback.practice{background:#e2ecf6;color:#22486d;border:1px solid #bcd0e4}
+.game-retry{display:flex;justify-content:center;margin-top:12px}
 
 /* Cronología con reproductor */
 .tl-player{display:flex;align-items:center;gap:16px;margin:4px 0 16px}

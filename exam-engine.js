@@ -21,6 +21,19 @@
   }
   const makeOrders=(count,draw=randomInt)=>Array.from({length:count},()=>shuffle([0,1,2,3],draw));
   const isOrder=(order,count)=>Array.isArray(order)&&order.length===count&&new Set(order).size===count&&order.every(n=>Number.isInteger(n)&&n>=0&&n<count);
+  const swapFirst=list=>{if(list.length>1)[list[0],list[1]]=[list[1],list[0]];return list;};
+  const sameOrder=(a,b)=>a.every((n,i)=>n===b[i]);
+  // Sin sorteos que regalen la respuesta: ni hitos ya ordenados ni definiciones alineadas fila a fila.
+  function newLessonActivity(kind,count,draw=randomInt){
+    const ids=Array.from({length:count},(_,i)=>i);
+    if(kind==='match'){
+      const terms=shuffle(ids,draw),definitions=shuffle(ids,draw);
+      if(sameOrder(terms,definitions))swapFirst(definitions);
+      return {done:false,terms,definitions,matched:[],selected:null};
+    }
+    if(kind==='order'){const order=shuffle(ids,draw);if(sameOrder(order,ids))swapFirst(order);return {done:false,order,picks:[]};}
+    return {done:false,order:shuffle(ids,draw),chosen:null};
+  }
   function newShort(questions,draw=randomInt){
     const questionOrder=shuffle(questions.map((_,i)=>i),draw);
     return {items:questionOrder.map(i=>copy(questions[i])),questionOrder,orders:makeOrders(questions.length,draw),bankVersion:'review-2027-v2'};
@@ -63,5 +76,5 @@
       return result;
     });
   }
-  return {randomInt,shuffle,makeOrders,isOrder,newShort,restoreShort,newClassic,restoreClassic,reviewShort,reviewClassic};
+  return {randomInt,shuffle,makeOrders,isOrder,newShort,restoreShort,newClassic,restoreClassic,reviewShort,reviewClassic,newLessonActivity};
 });
